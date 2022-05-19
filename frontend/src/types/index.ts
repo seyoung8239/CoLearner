@@ -8,3 +8,12 @@ export type BasicAPIResponseType<T> = {
   headers: object;
   request: object;
 }
+
+export type getNodesType = {
+  nodes: Node[]
+}
+export interface Node {
+  nodeId: number;
+  name: string;
+  isDir: boolean;
+}
