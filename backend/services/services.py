@@ -1,41 +1,36 @@
-
-from backend.model.firebase_model import firebaseModel
+from model.mongo import mongoModel
 import os
 
-fm = firebaseModel()
-id = 0
+mm = mongoModel()
 
-def login(uid, pwd):
-    users = fm.get_users()
-    try:
-        userinfo = users[uid]
-        if userinfo["pwd"] == pwd:
-            return True
-        else:
-            return False
-    except:
+def verify(uid, pwd):
+    userinfo = mm.get_user(uid)
+    if userinfo is not None and userinfo["pwd"] == pwd:
+        return True
+    else:
         return False
 
-def register(uid, pwd):
-    if verification(uid):
-        fm.init_storage(uid)
+def signup(uid, pwd):
+    if check_redundancy(uid):
         user_info = {
+        "uid" : uid,
         "pwd" : pwd,
+        "files" : [{"type":"DIR","parent":-1}],
         }
-        fm.set_user(uid, user_info)
+        mm.set_user(user_info)
         return True
     else:
         return False
     
-def verification(uid):
-    users = fm.get_users()
-    for userid in users:
-        if uid == userid:
-            return False
-    return True
+def check_redundancy(uid):
+    user = mm.get_user(uid)
+    if user is None:
+        return True
+    else:
+        return False
 
 def files(uid):
-    fm.get_files(uid)
+    mm.get_files(uid)
 
 
 def upload_file(self, uid, filename, current_dir_id):
