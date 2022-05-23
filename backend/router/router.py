@@ -1,5 +1,6 @@
 from flask import request, render_template, redirect, url_for, Blueprint, session, Response, jsonify
 from services import services as s
+from werkzeug.utils import secure_filename
 
 app = Blueprint("main", __name__, url_prefix="/")
 
@@ -53,14 +54,38 @@ def logout():
     else:
         return jsonify({'message':'fail'})
 
-@app.route("/files")
-def files():
-    pass
+@app.route("/finder/<id>")
+def finder(id):
+    files = s.check_dir(session["uid"], int(id))
+    if isinstance(files, list):
+        return jsonify({'message':'dir', 'files':files, 'cdi':int(id), 'uid':session['uid']})
+    elif isinstance(files, bool):
+        return jsonify({'message':'empty', 'cdi':int(id), 'uid':session['uid']})
+    else:
+        return jsonify({'message':'file', 'id':int(id)})
 
-@app.route("/upload", methods=['POST'])
-def upload():
-    pass
+@app.route("/upload/<id>", methods=['POST'])
+def upload(id):
+    f = request.files['filename']
+    filepath = "./static/files/"+secure_filename(f.filename)
+    f.save(filepath)
 
-@app.route("/mkdir")
-def mkdir():
-    pass
+    if "uid" in session:
+        if s.upload(session["uid"], secure_filename(f.filename), id):
+            return jsonify({'message':'success', 'id':int(id)})
+        else:
+            return jsonify({'message':'fail'})
+    else:
+        file_info = {
+        "name" : f.filename.split(".")[0],
+        "type" : f.filename.split(".")[-1].upper(),
+        }
+        return jsonify({'message':'success', 'id':0, 'file_info':file_info})
+
+@app.route("/makedir/<id>", methods=['POST'])
+def makedir(id):
+    dirname = request.form['dirname']
+    if s.makedir(session["uid"], dirname, id):
+        return jsonify({'message':'success', 'id':id})
+    else:
+        return jsonify({'message':'fail'})

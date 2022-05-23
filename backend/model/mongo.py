@@ -19,14 +19,18 @@ class mongoModel:
         self.fs = GridFS(self.db, prefix)
     
     def put_file(self, uid, data, file_info):
-        if data != None:
-            fileid = self.put_file_to_fs(data)
-            file_info["fileid"] = fileid
-        
-        filelist = self.db.users.find_one({'uid':uid})["files"]
-        file_info["id"] = len(filelist)
-        filelist.append(file_info)
-        self.db.users.update_one({'uid':uid}, {'$set':{'files':filelist}})
+        try:
+            if data != None:
+                fileid = self.put_file_to_fs(data)
+                file_info["fileid"] = fileid
+            
+            filelist = self.db.users.find_one({'uid':uid})["files"]
+            file_info["id"] = len(filelist)
+            filelist.append(file_info)
+            self.db.users.update_one({'uid':uid}, {'$set':{'files':filelist}})
+            return True
+        except:
+            return False
         
     def put_file_to_fs(self, data):
         return self.fs.put(data)

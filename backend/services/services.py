@@ -29,27 +29,43 @@ def check_redundancy(uid):
     else:
         return False
 
-def files(uid):
-    mm.get_files(uid)
+def files(uid, id):
+    mm.get_files(uid, id)
 
+def file(uid, id):
+    return mm.get_file(uid, id)
 
-def upload_file(self, uid, filename, current_dir_id):
-    id += 1
+def check_dir(uid, id):
+    if id == 0:
+        return files(uid, id)
+    else:
+        file_info = file(uid, id)
+        if file_info["type"] == "DIR":
+            return files(uid, id)
+        else:
+            return file_info
 
-    #Storage 업로드
+def upload(uid, filename, cdi):
     file_path = "./static/files/"+filename
-    storage_path = uid+"/"+filename
-    fm.store_file(storage_path, file_path)
-
-    #DB 반영
     file_info = {
-        "id" : id,
         "name" : filename.split(".")[0],
-        "type" : os.path.splitext(file_path)[1].lstrip(".").upper(),
-        "filepath" : self.storage.child(storage_path).get_url(filename),
-        "parent" : current_dir_id
+        "type" : filename.split(".")[-1].upper(),
+        "parent" : int(cdi),
     }
-    fm.set_file(uid, file_info["name"], file_info)
+    with open(file_path, "rb") as f:
+        if mm.put_file(uid, f, file_info):
+            return True
+        else:
+            return False
 
-def mkdir(uid):
-    pass
+def makedir(uid, dirname, cdi):
+    dir_info = {
+        "name" : dirname,
+        "type" : "DIR",
+        "parent" : int(cdi)
+    }
+    if mm.put_file(uid, None, dir_info):
+        return True
+    else:
+        return False
+
