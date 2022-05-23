@@ -1,5 +1,8 @@
 from model.mongo import mongoModel
 import os
+import pdfplumber
+from pptx import Presentation
+from requests import get
 
 mm = mongoModel()
 
@@ -69,3 +72,31 @@ def makedir(uid, dirname, cdi):
     else:
         return False
 
+def read_file(file_info):
+    ft = file_info["type"].lower()
+    path = "./static/files/"+file_info["name"]+"."+ft
+
+    if 'fileid' in file_info:
+        file = mm.get_file_from_fs(file_info['fileid'])
+        with open(path, "wb") as f:
+            f.write(file)
+        
+    if ft == "pdf":
+        pr = pdfplumber.open(path)
+    elif ft == "ppt" or ft == "pptx":
+        pr = Presentation(path)
+    
+    return pr, ft
+    
+def read_page(pr, pagenum, ft):
+    if ft == "pdf":
+        return pr.pages[pagenum].extract_text()
+    elif ft == "ppt" or ft == "pptx":
+        text_runs = []
+        slides = pr.slides
+        for shape in slides[pagenum].shapes:
+            if shape.has_text_frame:
+                for para in shape.text_frame.paragraphs:
+                    for run in para.runs:
+                        text_runs.append(run.text)
+        return text_runs

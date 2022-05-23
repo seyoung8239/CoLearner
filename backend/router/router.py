@@ -89,3 +89,21 @@ def makedir(id):
         return jsonify({'message':'success', 'id':id})
     else:
         return jsonify({'message':'fail'})
+
+@app.route("/viewer/<id>", methods=['GET'])
+def viewer(id):
+    if "uid" in session:
+        pr, ft = s.read_file(s.file(session["uid"], int(id)))
+        if pr == None or ft == None:
+            return jsonify({'message':'fail'})
+        else:
+            content = s.read_page(pr, int(pagenum), ft)
+            return jsonify({'message':'success','content':content})
+    else:
+        file_info = request.args['fileinfo']
+        pr, ft = s.read_file(file_info)
+        if pr == None or ft == None:
+            return jsonify({'message':'fail'})
+        else:
+            content = s.read_page(pr, int(pagenum), ft)
+            return jsonify({'message':'success','content':content})
