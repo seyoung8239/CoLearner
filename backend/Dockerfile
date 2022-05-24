@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE 5000
 
-CMD ["pythonn", "./app.py"]
+CMD ["python", "./app.py"]
