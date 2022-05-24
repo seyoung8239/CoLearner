@@ -3,7 +3,7 @@ from gridfs import GridFS
 
 class mongoModel:
     def __init__(self):
-        self.connect('localhost', 27017)
+        self.connect("mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority",27017)
         self.set_db('colearner')
         self.set_gridfs()
 
