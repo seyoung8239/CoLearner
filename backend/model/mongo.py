@@ -1,14 +1,12 @@
 from pymongo import MongoClient
 from gridfs import GridFS
+import certifi
 
 class mongoModel:
     def __init__(self):
-        self.connect("mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority")
+        self.client = MongoClient("mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
         self.set_db('colearner')
         self.set_gridfs()
-
-    def connect(self, host):
-        self.client = MongoClient(host)
     
     def set_db(self, name):
         self.db = self.client[name]
