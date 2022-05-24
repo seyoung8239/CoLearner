@@ -5,8 +5,6 @@ import { BasicAPIResponseType } from '../types';
 
 export const apiOrigin = "http://localhost:5000"
 
-// export const apiRoute = {};
-
 export function requestGet<T>(url: string, header: object) {
   return new Promise<T>((resolve, reject) => {
     axios
@@ -18,7 +16,7 @@ export function requestGet<T>(url: string, header: object) {
       })
       .then(res => {
         console.log("get res: ", res);
-        const returnVal = {...res} as BasicAPIResponseType<T>;
+        const returnVal = {...res} as unknown;
         resolve(returnVal as T);
       })
       .catch((e: AxiosError) => {
@@ -29,10 +27,10 @@ export function requestGet<T>(url: string, header: object) {
   });
 }
 
-export function requestPost<T>(url: string, header: object, body: object) {
+export function requestFormPost<T>(url: string, header: object, form: FormData) {
   return new Promise<T>((resolve, reject) => {
     axios
-      .post(url, body, {
+      .post(url, form, {
         headers: {
           "Content-Type": "application/json",
           ...header,

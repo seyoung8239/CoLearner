@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { requestGet, requestPost, apiOrigin } from '../../utils/api';
+import { requestGet, requestFormPost, apiOrigin } from '../../utils/api';
 import useStore from '../../store/store';
 import { BasicAPIResponseType, getNodesType, postAddFile } from '../../types';
 
@@ -20,7 +20,7 @@ const Finder = () => {
       if (file) {
         const formData = new FormData();
         formData.append("filename", file, file.name);
-        const { data } = await requestPost<
+        const { data } = await requestFormPost<
           BasicAPIResponseType<postAddFile>
         >(apiOrigin + `/upload/${dirId}`, {}, formData);
         if(data.message === 'success')
