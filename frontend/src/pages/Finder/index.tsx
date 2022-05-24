@@ -19,14 +19,14 @@ const Finder = () => {
     async () => {
       if (file) {
         const formData = new FormData();
-        formData.append("filename", file, file.name);
+        formData.append("file", file, file.name);
         const { data } = await requestFormPost<
           BasicAPIResponseType<UploadType>
         >(apiOrigin + `/upload/${dirId}`, {}, formData);
-        if(data.message === 'success')
+        if (data.message === 'success')
           console.log('success add dir');
       }
-    }, []);
+    }, [file, nodeId]);
 
   const handleChangeFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     let newFile = event.target.files![0]
