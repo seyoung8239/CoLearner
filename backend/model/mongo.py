@@ -3,14 +3,12 @@ from gridfs import GridFS
 
 class mongoModel:
     def __init__(self):
-        self.connect("mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority",27017)
+        self.connect("mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority")
         self.set_db('colearner')
         self.set_gridfs()
 
-    def connect(self, host, port):
-        if isinstance(port, str):
-            port=int(port)
-        self.client = MongoClient(host,port)
+    def connect(self, host):
+        self.client = MongoClient(host)
     
     def set_db(self, name):
         self.db = self.client[name]
