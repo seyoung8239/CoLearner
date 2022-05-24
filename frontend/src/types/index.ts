@@ -17,3 +17,9 @@ export interface Node {
   name: string;
   isDir: boolean;
 }
+
+export type postAddFile = {
+  message: string;
+  id: number;
+  file_info: object;
+}
