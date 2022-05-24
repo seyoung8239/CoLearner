@@ -18,7 +18,7 @@ export interface Node {
   isDir: boolean;
 }
 
-export type postAddFile = {
+export type UploadType = {
   message: string;
   id: number;
   file_info: object;
