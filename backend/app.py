@@ -12,7 +12,7 @@ app.secret_key = "veryverysecretkey"
 
 app.register_blueprint(router.bp)
 
-CORS(app, resources={r'*':{'origins':['127.0.0.1:5000','127.0.0.1:3000']}})
+CORS(app, resources={r'*':{'origins':['127.0.0.1:5000','http://127.0.0.1:3000', 'http://localhost:3000']}})
 
 api = Api(app=app, title="CoLearner API 문서", doc="/api")
 
