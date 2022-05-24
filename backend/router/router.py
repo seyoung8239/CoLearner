@@ -1,23 +1,24 @@
-from flask import request, render_template, redirect, url_for, Blueprint, session, Response, jsonify
+from flask import request, Blueprint, session, Response, jsonify
+from bson.json_util import dumps
 from services import services as s
 from werkzeug.utils import secure_filename
 
-app = Blueprint("main", __name__, url_prefix="/")
+bp = Blueprint("main", __name__, url_prefix="/")
 
-@app.route("/")
+@bp.route("/")
 def index():
     if "uid" in session:
-        return jsonify({'message':'true'})
+        return jsonify({'message':'success'})
     else:
-        return jsonify({'message':'false'})
+        return jsonify({'message':'fail'})
 
-@app.route("/signup", methods=['GET', 'POST'])
+@bp.route("/signup", methods=['GET', 'POST'])
 def signup():
     if request.method == 'GET':
         return jsonify({'message':'signup'})
     else:
-        uid = request.form.get('userid')
-        pwd = request.form.get('password')
+        uid = request.args.get('uid')
+        pwd = request.args.get('pwd')
         if uid == "":
             return jsonify({'message':'no uid'})
         elif pwd == "":
@@ -30,7 +31,7 @@ def signup():
         else:
             return jsonify({'message':'fail'})
 
-@app.route("/signin", methods = ['GET', 'POST'])
+@bp.route("/signin", methods = ['GET', 'POST'])
 def signin():
     if "uid" in session:
             return jsonify({'message':'success'})
@@ -38,15 +39,17 @@ def signin():
         if request.method == 'GET':
             return jsonify({'message':'signin'})
         else:
-            uid = request.form['userid']
-            pwd = request.form['password']
+            uid = request.args.get('uid')
+            print(uid)
+            pwd = request.args.get('pwd')
+            print(pwd)
             if s.verify(uid, pwd):
                 session["uid"] = uid
                 return jsonify({'message':'success'})
             else:
                 return jsonify({'message':'fail'})
 
-@app.route("/logout")
+@bp.route("/logout")
 def logout():
     if "uid" in session:
         session.pop("uid")
@@ -54,19 +57,19 @@ def logout():
     else:
         return jsonify({'message':'fail'})
 
-@app.route("/finder/<id>")
+@bp.route("/finder/<id>")
 def finder(id):
     files = s.check_dir(session["uid"], int(id))
     if isinstance(files, list):
-        return jsonify({'message':'dir', 'files':files, 'cdi':int(id), 'uid':session['uid']})
+        return jsonify({'message':'dir', 'files':dumps(files), 'cdi':int(id), 'uid':session['uid']})
     elif isinstance(files, bool):
         return jsonify({'message':'empty', 'cdi':int(id), 'uid':session['uid']})
     else:
-        return jsonify({'message':'file', 'id':int(id)})
+        return jsonify({'message':'file', 'id':int(id), 'file':dumps(files)})
 
-@app.route("/upload/<id>", methods=['POST'])
+@bp.route("/upload/<id>", methods=['POST'])
 def upload(id):
-    f = request.files['filename']
+    f = request.files['file']
     filepath = "./static/files/"+secure_filename(f.filename)
     f.save(filepath)
 
@@ -82,18 +85,19 @@ def upload(id):
         }
         return jsonify({'message':'success', 'id':0, 'file_info':file_info})
 
-@app.route("/makedir/<id>", methods=['POST'])
+@bp.route("/makedir/<id>", methods=['POST'])
 def makedir(id):
-    dirname = request.form['dirname']
+    dirname = request.args.get('dirname')
     if s.makedir(session["uid"], dirname, id):
         return jsonify({'message':'success', 'id':id})
     else:
         return jsonify({'message':'fail'})
 
-@app.route("/viewer/<id>", methods=['GET'])
+@bp.route("/viewer/<id>", methods=['GET'])
 def viewer(id):
     if "uid" in session:
         pr, ft = s.read_file(s.file(session["uid"], int(id)))
+        pagenum = request.args.get('pagenum')
         if pr == None or ft == None:
             return jsonify({'message':'fail'})
         else:

@@ -33,7 +33,7 @@ def check_redundancy(uid):
         return False
 
 def files(uid, id):
-    mm.get_files(uid, id)
+    return mm.get_files(uid, id)
 
 def file(uid, id):
     return mm.get_file(uid, id)
