@@ -19,9 +19,9 @@ def signup():
     else:
         uid = request.args.get('uid')
         pwd = request.args.get('pwd')
-        if uid == "":
+        if uid == None or uid =="":
             return jsonify({'message':'no uid'})
-        elif pwd == "":
+        elif pwd == None or uid=="":
             return jsonify({'message':'no pwd'})
         
         if s.signup(uid, pwd):
