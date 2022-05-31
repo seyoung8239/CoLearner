@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import {useNavigate} from 'react-router-dom';
 import "./landing.css";
 
@@ -24,10 +24,12 @@ const Landing = () => {
 
   return (
     <>
-    <h1>Colearner</h1>
-      <button className = "signin"  onClick={()=> handleClick("signin")}>로그인하기</button>
-      <button  className = "signup" onClick={()=> handleClick("signup")}>회원가입 하기</button>
-      <button className = "guest"  onClick={()=> handleClick("guest")}>비회원으로 사용하기</button>
+    <h1 className = "logo">Colearner</h1>
+    <div className = "btns">
+      <button className = "btn"  onClick={()=> handleClick("signin")}>로그인하기</button>
+      <button  className = "btn" onClick={()=> handleClick("signup")}>회원가입 하기</button>
+      <button className = "btn"  onClick={()=> handleClick("guest")}>비회원으로 사용하기</button>
+      </div>
     </>
   )
 }
