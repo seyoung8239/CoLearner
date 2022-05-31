@@ -103,7 +103,7 @@ def upload(id):
 @bp.route("/makedir/<id>", methods=['POST'])
 @cross_origin(supports_credentials=True)
 def makedir(id):
-    dirname = request.args.get('dirname')
+    dirname = request.form['dirname']
     if s.makedir(session["uid"], dirname, id):
         return jsonify({'message':'success', 'id':id})
     else:
@@ -114,7 +114,7 @@ def makedir(id):
 def viewer(id):
     if "uid" in session:
         pr, ft = s.read_file(s.file(session["uid"], int(id)))
-        pagenum = request.args.get('pagenum')
+        pagenum = request.form['pagenum']
         if pr == None or ft == None:
             return jsonify({'message':'fail'})
         else:
