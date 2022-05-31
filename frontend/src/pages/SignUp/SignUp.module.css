@@ -1,0 +1,73 @@
+.logo {
+    position: absolute;
+    width: 194px;
+    height: 55px;
+    left: 172px;
+    top: 20px;
+
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 55px;  
+    color: #000000;
+}
+
+.title {
+    position: absolute;
+    width: 170px;
+    height: 52px;
+    left: 893px;
+    top: 356px;
+
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 52px;
+
+    color: #000000;
+}
+
+.idBox{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 400px;
+    height: 60px;
+    left: 760px;
+    top: 480px;
+    
+    background: #FFFFFF;
+    border: 1px solid #939393;
+    border-radius: 10px;
+}
+
+.pwBox{
+    box-sizing: border-box;
+
+    position: absolute;
+    width: 400px;
+    height: 60px;
+    left: 760px;
+    top: 552px;
+
+    background: #FFFFFF;
+    border: 1px solid #939393;
+    border-radius: 10px;
+}
+
+.button{
+    position: absolute;
+    width: 400px;
+    height: 60px;
+    left: 760px;
+    top: 644px;
+
+    background: #3384FE;
+    border: none;
+    border-radius: 10px;
+
+    color: #FFFFFF;
+    font-size: 20px;
+}
