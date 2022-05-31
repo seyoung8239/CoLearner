@@ -13,6 +13,7 @@ export function requestGet<T>(url: string, header: object) {
           "Content-Type": "application/json",
           ...header,
         },
+        withCredentials: true
       })
       .then(res => {
         console.log("get res: ", res);
@@ -35,7 +36,8 @@ export function requestFormPost<T>(url: string, header: object, form: FormData) 
           "Content-Type": "application/json",
           ...header,
         },
-      },)
+        withCredentials: true
+      }, )
     .then((res) => {
       const returnVal = { ...res } as unknown;
       resolve(returnVal as T);

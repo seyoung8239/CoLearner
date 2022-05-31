@@ -2,10 +2,13 @@ from flask import request, Blueprint, session, Response, jsonify
 from bson.json_util import dumps
 from services import services as s
 from werkzeug.utils import secure_filename
+from flask_cors import CORS, cross_origin
+
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
 @bp.route("/")
+@cross_origin(supports_credentials=True)
 def index():
     if "uid" in session:
         return jsonify({'message':'success'})
@@ -13,6 +16,7 @@ def index():
         return jsonify({'message':'fail'})
 
 @bp.route("/signup", methods=['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def signup():
     if request.method == 'GET':
         return jsonify({'message':'signup'})
@@ -32,6 +36,7 @@ def signup():
             return jsonify({'message':'fail'})
 
 @bp.route("/signin", methods = ['GET', 'POST'])
+@cross_origin(supports_credentials=True)
 def signin():
     if "uid" in session:
             return jsonify({'message':'success'})
@@ -55,6 +60,7 @@ def signin():
                 return jsonify({'message':'fail'})
 
 @bp.route("/logout")
+@cross_origin(supports_credentials=True)
 def logout():
     if "uid" in session:
         session.pop("uid")
@@ -63,6 +69,7 @@ def logout():
         return jsonify({'message':'fail'})
 
 @bp.route("/finder/<id>")
+@cross_origin(supports_credentials=True)
 def finder(id):
     files = s.check_dir(session["uid"], int(id))
     print(session['uid'])
@@ -75,6 +82,7 @@ def finder(id):
         return jsonify({'message':'file', 'id':int(id), 'file':dumps(files)})
 
 @bp.route("/upload/<id>", methods=['POST'])
+@cross_origin(supports_credentials=True)
 def upload(id):
     f = request.files['file']
     filepath = "./static/files/"+secure_filename(f.filename)
@@ -93,6 +101,7 @@ def upload(id):
         return jsonify({'message':'success', 'id':0, 'file_info':file_info})
 
 @bp.route("/makedir/<id>", methods=['POST'])
+@cross_origin(supports_credentials=True)
 def makedir(id):
     dirname = request.args.get('dirname')
     if s.makedir(session["uid"], dirname, id):
@@ -101,6 +110,7 @@ def makedir(id):
         return jsonify({'message':'fail'})
 
 @bp.route("/viewer/<id>", methods=['GET'])
+@cross_origin(supports_credentials=True)
 def viewer(id):
     if "uid" in session:
         pr, ft = s.read_file(s.file(session["uid"], int(id)))

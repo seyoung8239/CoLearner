@@ -4,7 +4,7 @@ from flask_restx import Api, Resource
 from services import services as s
 from werkzeug.utils import secure_filename
 from router import router
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config.from_object(Config)
