@@ -1,0 +1,36 @@
+.logo{
+    position: absolute;
+    width: 194px;
+    height: 55px;
+    left: 172px;
+    top: 20px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 38px;
+    line-height: 55px;  
+    color: #000000;
+    }
+
+    .btns{
+        margin-top:15%;
+        display:flex;
+        height:100%;
+        flex-direction: row;
+        justify-content: center;
+        align-items:center;
+    }
+
+.btn{
+        position:flex;
+        margin-right:50px;
+        margin-left:50px;
+         text-align: center;     
+         font-size:24px;
+        width: 285px;
+        height: 285px;
+        border-radius: 100%;
+        border:none;
+        background: #E3EEFF;
+    }
+    

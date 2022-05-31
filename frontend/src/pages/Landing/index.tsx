@@ -1,5 +1,6 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import {useNavigate} from 'react-router-dom';
+import "./landing.css";
 
 type PageCategory = "signin" | "signup" | "guest";
 
@@ -23,11 +24,15 @@ const Landing = () => {
 
   return (
     <>
-      <button onClick={()=> handleClick("signin")}>로그인하기</button>
-      <button onClick={()=> handleClick("signup")}>회원가입 하기</button>
-      <button onClick={()=> handleClick("guest")}>비회원으로 사용하기</button>
+    <h1 className = "logo">Colearner</h1>
+    <div className = "btns">
+      <button className = "btn"  onClick={()=> handleClick("signin")}>로그인하기</button>
+      <button  className = "btn" onClick={()=> handleClick("signup")}>회원가입 하기</button>
+      <button className = "btn"  onClick={()=> handleClick("guest")}>비회원으로 사용하기</button>
+      </div>
     </>
   )
 }
+
 
 export default Landing;
