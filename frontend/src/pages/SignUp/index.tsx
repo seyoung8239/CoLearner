@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestFormPost } from '../../utils/api';
+import styles from './SignUp.module.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -26,11 +27,12 @@ const SignUp = () => {
   }, [navigate, uid, pwd]);
 
   return <>
-    <h1>회원가입</h1>
+    <h1 className={styles.logo}>Colearner</h1>
+    <h1 className={styles.title}>회원가입</h1>
     <form onSubmit={handleSubmit}>
-      <input type="text" onChange={e => setUid(e.target.value as string)} />
-      <input type="password" onChange={e => setPwd(e.target.value as string)} />
-      <button type='submit'>회원가입</button>
+      <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />
+      <input className={styles.pwBox} type="password" placeholder="비밀번호를 입력해주세요" onChange={e => setPwd(e.target.value as string)} />
+      <button className={styles.button} type='submit'>회원가입</button>
     </form></>
 }
 
