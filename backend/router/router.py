@@ -17,8 +17,8 @@ def signup():
     if request.method == 'GET':
         return jsonify({'message':'signup'})
     else:
-        uid = request.args.get('uid')
-        pwd = request.args.get('pwd')
+        uid = request.form['uid']
+        pwd = request.form['pwd']
         if uid == None or uid =="":
             return jsonify({'message':'no uid'})
         elif pwd == None or uid=="":
@@ -37,16 +37,21 @@ def signin():
             return jsonify({'message':'success'})
     else:
         if request.method == 'GET':
+            print('already in session')
             return jsonify({'message':'signin'})
         else:
-            uid = request.args.get('uid')
+            print(request.method)
+            uid = request.form['uid']
             print(uid)
-            pwd = request.args.get('pwd')
+            pwd = request.form['pwd']
             print(pwd)
             if s.verify(uid, pwd):
+                print("valid")
                 session["uid"] = uid
+                print(uid)
                 return jsonify({'message':'success'})
             else:
+                print("invalid")
                 return jsonify({'message':'fail'})
 
 @bp.route("/logout")
@@ -60,6 +65,8 @@ def logout():
 @bp.route("/finder/<id>")
 def finder(id):
     files = s.check_dir(session["uid"], int(id))
+    print(session['uid'])
+    print(id)
     if isinstance(files, list):
         return jsonify({'message':'dir', 'files':dumps(files), 'cdi':int(id), 'uid':session['uid']})
     elif isinstance(files, bool):
