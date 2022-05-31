@@ -75,11 +75,11 @@ def finder(id):
     print(session['uid'])
     print(id)
     if isinstance(files, list):
-        return jsonify({'message':'dir', 'files':dumps(files), 'cdi':int(id), 'uid':session['uid']})
+        return jsonify({'message':'dir', 'files':files, 'cdi':int(id), 'uid':session['uid']})
     elif isinstance(files, bool):
         return jsonify({'message':'empty', 'cdi':int(id), 'uid':session['uid']})
     else:
-        return jsonify({'message':'file', 'id':int(id), 'file':dumps(files)})
+        return jsonify({'message':'file', 'id':int(id), 'file':files})
 
 @bp.route("/upload/<id>", methods=['POST'])
 @cross_origin(supports_credentials=True)
