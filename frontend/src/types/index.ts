@@ -1,3 +1,5 @@
+import internal from "stream";
+
 export type BasicAPIResponseType<T> = {
   data: T;
   status: number;
