@@ -4,26 +4,30 @@ import useStore from '../../../store/store';
 
 type Props = {
   isLoading: boolean
+  isData: boolean
 }
 
-const NodeList = ({ isLoading }: Props) => {
+const NodeList = ({ isLoading, isData }: Props) => {
   const store = useStore();
   const navigate = useNavigate();
 
   const handleClickDir = useCallback((nodeId: number) => {
     navigate(`/finder/${nodeId}`);
+    window.location.reload()
   }, []);
   const handleClickFile = useCallback((nodeId: number) => {
 
   }, []);
 
   if (!isLoading) return <>Loading...</>
-
+  if (!isData) return <>No Data..</>
+  
   return (<>
+    {console.log(store.nodes)}  
     {store.nodes.map((node) => (
-      node.isDir ?
-        <div key={node.nodeId} onClick={() => handleClickFile(node.nodeId)}>[Dir]{node.name}</div> :
-        <div key={node.nodeId} onClick={() => handleClickDir(node.nodeId)}>[File]{node.name}</div>
+      node.type === 'DIR' ?
+        <div key={node.id} onClick={() => handleClickDir(node.id)}>[DIR]{node.name}</div> :
+        <div key={node.id} onClick={() => handleClickFile(node.id)}>[FILE]{node.name}</div>
     ))}
   </>)
 }
