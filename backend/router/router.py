@@ -1,9 +1,7 @@
-from flask import request, Blueprint, session, Response, jsonify
-from bson.json_util import dumps
+from flask import request, Blueprint, session, Response, jsonify, send_file
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
-
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
@@ -104,17 +102,19 @@ def makedir(id):
     else:
         return jsonify({'message':'fail'})
 
-@bp.route("/viewer/<id>", methods=['GET'])
+@bp.route("/viewer/<id>/<pagenum>", methods=['GET'])
 @cross_origin(supports_credentials=True)
-def viewer(id):
+def viewer(id, pagenum):
     if "uid" in session:
-        pr, ft = s.read_file(s.file(session["uid"], int(id)))
-        pagenum = request.form['pagenum']
-        if pr == None or ft == None:
-            return jsonify({'message':'fail'})
+        file = s.file(session["uid"], int(id))
+        if file:
+            if s.process_file(file):
+                return jsonify({'message':'success','links':links})
+            else:
+                return jsonify({'message':'fail'})    
         else:
-            content = s.read_page(pr, int(pagenum), ft)
-            return jsonify({'message':'success','content':content})
+            return jsonify({'message':'fail'})
+    # Guest
     else:
         file_info = request.args['fileinfo']
         pr, ft = s.read_file(file_info)
@@ -123,3 +123,19 @@ def viewer(id):
         else:
             content = s.read_page(pr, int(pagenum), ft)
             return jsonify({'message':'success','content':content})
+
+@bp.route("/receive/<id>", methods=['GET'])
+@cross_origin(supports_credentials=True)
+def receive(id):
+    if "uid" in session:
+        file = s.file(session["uid"], int(id))
+        if file:
+            path = s.download(file)
+            if path:
+                return send_file(path, as_attachment=True)
+            else:
+                return jsonify({'message' : 'fail'})    
+        else:
+            return jsonify({'message' : 'fail'})    
+    else:
+        return jsonify({'message' : 'fail'})

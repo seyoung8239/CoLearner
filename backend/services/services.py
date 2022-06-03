@@ -75,11 +75,7 @@ def makedir(uid, dirname, cdi):
 def read_file(file_info):
     ft = file_info["type"].lower()
     path = "./static/files/"+file_info["name"]+"."+ft
-
-    if 'fileid' in file_info:
-        file = mm.get_file_from_fs(file_info['fileid'])
-        with open(path, "wb") as f:
-            f.write(file)
+    download(file_info)
         
     if ft == "pdf":
         pr = pdfplumber.open(path)
@@ -100,3 +96,13 @@ def read_page(pr, pagenum, ft):
                     for run in para.runs:
                         text_runs.append(run.text)
         return text_runs
+
+def download(file_info):
+    path = "./static/files/"+file_info["name"]+"."+file_info["type"].lower()
+    if 'fileid' in file_info:
+        file = mm.get_file_from_fs(file_info['fileid'])
+        with open(path, "wb") as f:
+            f.write(file)
+        return path
+    else:
+        return False

@@ -36,7 +36,14 @@ class mongoModel:
         return out.read()
 
     def get_file(self, uid, id):
-        return self.get_user(uid)["files"][int(id)]
+        try:
+            file = self.get_user(uid)["files"][int(id)]
+            if file == None:
+                return False
+            else:
+                return file
+        except:
+            return False
 
     def get_files(self, uid, parent):
         if self.get_user(uid) is not None:
