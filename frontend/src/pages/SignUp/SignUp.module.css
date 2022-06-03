@@ -7,16 +7,16 @@
 
 .logo {
     position: absolute;
-    width: 80vw;
-    height: 30vh;
-    left: 5vw;
-    top: 1vw;
+    width: 194px;
+    height: 55px;
+    left: 172px;
+    top: 20px;
 
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 700;
-    font-size: 2.5vw;
-    line-height: 4vh;  
+    font-size: 38px;
+    line-height: 55px;  
     color: #000000;
 }
 
