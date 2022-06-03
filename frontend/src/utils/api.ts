@@ -13,10 +13,11 @@ export function requestGet<T>(url: string, header: object) {
           "Content-Type": "application/json",
           ...header,
         },
+        withCredentials: true
       })
       .then(res => {
         console.log("get res: ", res);
-        const returnVal = {...res} as unknown;
+        const returnVal = { ...res } as unknown;
         resolve(returnVal as T);
       })
       .catch((e: AxiosError) => {
@@ -35,15 +36,16 @@ export function requestFormPost<T>(url: string, header: object, form: FormData) 
           "Content-Type": "application/json",
           ...header,
         },
-      })
-      .then((res)=> {
-        const returnVal = {...res} as unknown;
-        resolve(returnVal as T);
-      })
-      .catch((error: AxiosError) => {
-        console.error(error.response?.data);
-        console.error(error.response?.status);
-        reject(error);
-      });
-  });
+        withCredentials: true
+      }, )
+    .then((res) => {
+      const returnVal = { ...res } as unknown;
+      resolve(returnVal as T);
+    })
+    .catch((error: AxiosError) => {
+      console.error(error.response?.data);
+      console.error(error.response?.status);
+      reject(error);
+    });
+});
 }

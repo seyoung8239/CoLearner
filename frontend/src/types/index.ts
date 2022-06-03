@@ -1,3 +1,5 @@
+import internal from "stream";
+
 export type BasicAPIResponseType<T> = {
   data: T;
   status: number;
@@ -10,12 +12,16 @@ export type BasicAPIResponseType<T> = {
 }
 
 export type getNodesType = {
-  nodes: Node[]
+  cdi: number;
+  files: Node[];
+  message: string;
+  uid: string
 }
 export interface Node {
-  nodeId: number;
+  id: number;
   name: string;
-  isDir: boolean;
+  parent: number;
+  type: string;
 }
 
 export type UploadType = {
