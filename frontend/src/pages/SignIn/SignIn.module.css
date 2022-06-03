@@ -1,57 +1,64 @@
+.container {
+    display: flex;
+    align-items: center;
+    flex-direction : column;
+    justify-content: center;
+}
+
 .logo {
     position: absolute;
-    width: 194px;
-    height: 55px;
-    left: 172px;
-    top: 20px;
+    width: 80vw;
+    height: 30vh;
+    left: 5vw;
+    top: 1vw;
 
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 700;
-    font-size: 38px;
-    line-height: 55px;  
+    font-size: 2.5vw;
+    line-height: 4vh;  
     color: #000000;
 }
 
 .title {
     position: absolute;
-    width: 170px;
-    height: 52px;
-    left: 893px;
-    top: 356px;
+    width: 20vw;
+    height: 5vh;
+    left: 46.5vw;
+    top: 17vw;
 
     font-family: 'Noto Sans KR';
     font-style: normal;
     font-weight: 500;
-    font-size: 36px;
-    line-height: 52px;
+    font-size: 2vw;
+    line-height: 4vw;
 
     color: #000000;
 }
 
 .idBox{
-    box-sizing: border-box;
-
     position: absolute;
-    width: 400px;
-    height: 60px;
-    left: 760px;
-    top: 480px;
-    
+    width: 20vw;
+    height: 6vh;
+    top: 25vw;
+    left: 39vw;
+    font-size: 0.8vw;
+
+    box-sizing: border-box;
     background: #FFFFFF;
     border: 1px solid #939393;
     border-radius: 10px;
 }
 
 .pwBox{
-    box-sizing: border-box;
-
     position: absolute;
-    width: 400px;
-    height: 60px;
-    left: 760px;
-    top: 552px;
+    width: 20vw;
+    height: 6vh;
+    top: 28.5vw;
+    left: 39vw;
+    font-size: 0.8vw;
 
+    box-sizing: border-box;
     background: #FFFFFF;
     border: 1px solid #939393;
     border-radius: 10px;
@@ -59,15 +66,15 @@
 
 .button{
     position: absolute;
-    width: 400px;
-    height: 60px;
-    left: 760px;
-    top: 644px;
+    width: 20vw;
+    height: 6vh;
+    top: 34vw;
+    left: 39vw;
+    font-size: 1vw;
 
     background: #3384FE;
     border: none;
     border-radius: 10px;
-
     color: #FFFFFF;
-    font-size: 20px;
+    
 }

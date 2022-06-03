@@ -27,13 +27,16 @@ const SignUp = () => {
   }, [navigate, uid, pwd]);
 
   return <>
-    <h1 className={styles.logo}>Colearner</h1>
-    <h1 className={styles.title}>회원가입</h1>
-    <form onSubmit={handleSubmit}>
-      <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />
-      <input className={styles.pwBox} type="password" placeholder="비밀번호를 입력해주세요" onChange={e => setPwd(e.target.value as string)} />
-      <button className={styles.button} type='submit'>회원가입</button>
-    </form></>
+    <div className={styles.container}>
+      <h1 className={styles.logo}>Colearner</h1>
+      <h1 className={styles.title}>회원가입</h1>
+      <form onSubmit={handleSubmit}>
+        <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />
+        <input className={styles.pwBox} type="password" placeholder="비밀번호를 입력해주세요" onChange={e => setPwd(e.target.value as string)} />
+        <button className={styles.button} type='submit'>회원가입</button>
+      </form>
+    </div>
+  </>
 }
 
 export default SignUp;
