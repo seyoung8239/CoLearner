@@ -41,22 +41,15 @@ def signin():
     if "uid" in session:
             return jsonify({'message':'success'})
     else:
-        if request.method == 'GET':
-            print('already in session')
+        if request.method == 'GET': 
             return jsonify({'message':'signin'})
         else:
-            print(request.method)
             uid = request.form['uid']
-            print(uid)
             pwd = request.form['pwd']
-            print(pwd)
             if s.verify(uid, pwd):
-                print("valid")
                 session["uid"] = uid
-                print(uid)
                 return jsonify({'message':'success'})
             else:
-                print("invalid")
                 return jsonify({'message':'fail'})
 
 @bp.route("/logout")
@@ -72,13 +65,15 @@ def logout():
 @cross_origin(supports_credentials=True)
 def finder(id):
     files = s.check_dir(session["uid"], int(id))
-    print(session['uid'])
-    print(id)
     if isinstance(files, list):
+        for f in files:
+            f["fileid"] = None
         return jsonify({'message':'dir', 'files':files, 'cdi':int(id), 'uid':session['uid']})
     elif isinstance(files, bool):
         return jsonify({'message':'empty', 'cdi':int(id), 'uid':session['uid']})
     else:
+        for f in files:
+            f["fileid"] = None
         return jsonify({'message':'file', 'id':int(id), 'file':files})
 
 @bp.route("/upload/<id>", methods=['POST'])
