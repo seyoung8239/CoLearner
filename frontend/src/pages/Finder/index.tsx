@@ -29,8 +29,10 @@ const Finder = () => {
         const { data } = await requestFormPost<
           BasicAPIResponseType<UploadType>
         >(apiOrigin + `/upload/${dirId}`, {}, formData);
-        if (data.message === 'success')
+        if (data.message === 'success') {
           console.log('success add dir');
+          window.location.reload();
+        }   
       }
     }, [file, nodeId]);
 

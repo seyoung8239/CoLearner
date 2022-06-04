@@ -15,7 +15,7 @@ function App() {
       <Route path="/signup" element={<SignUp />} />
       <Route path="/guest" element={<Guest />} />
       <Route path="/finder/:nodeId" element={<Finder />} />
-      <Route path='/viewer/:nodeId/page' element={<Viewer />}></Route>
+      <Route path='/viewer/:nodeId' element={<Viewer />}></Route>
     </Routes>
   </BrowserRouter>)
 }
