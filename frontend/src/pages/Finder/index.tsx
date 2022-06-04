@@ -21,6 +21,8 @@ const Finder = () => {
 
   const handleUploadFile = useCallback(
     async () => {
+      console.log(file);
+      console.log('upload~');
       if (file) {
         const formData = new FormData();
         formData.append("file", file, file.name);
