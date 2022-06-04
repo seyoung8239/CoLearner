@@ -110,8 +110,9 @@ def read_page(pr, pagenum, ft):
 
 def download(file_info):
     path = "./static/files/"+file_info["name"]+"."+file_info["type"].lower()
-    if os.path.exists(path):
-        return False
+    print(os.path.exists(path))
+    # if os.path.exists(path):
+    #     return False
     if 'fileid' in file_info:
         file = mm.get_file_from_fs(file_info['fileid'])
         with open(path, "wb") as f:
