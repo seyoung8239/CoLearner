@@ -2,6 +2,7 @@ from flask import request, Blueprint, session, Response, jsonify, send_file
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
+from base64 import b64encode
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
@@ -122,7 +123,9 @@ def receive(id):
         if file:
             path = s.download(file)
             if path:
-                return send_file(path, as_attachment=True)
+                with open(path, "rb") as binary_file:
+                    encoded_string = b64encode(binary_file.read())
+                return jsonify({'message':'success', 'content':encoded_string.decode('utf-8')})
             else:
                 return jsonify({'message' : 'fail', 'error':'download'})    
         else:
@@ -142,6 +145,8 @@ def guest():
         "path" : filepath,
     }
     s.process_file(None, file_info)
-    return send_file(filepath, as_attachment=True)
+    with open(filepath, "rb") as binary_file:
+        encoded_string = b64encode(binary_file.read())
+    return jsonify({'message':'success', 'content':encoded_string.decode('utf-8')})
     
 
