@@ -32,7 +32,7 @@ const Viewer = () => {
       try {
         const res = await requestGet<
           BasicAPIResponseType<GetBase64File>
-        >(apiOrigin + `/receive/${fileId}`, {});
+        >(`${apiOrigin}/receive/${fileId}`, {});
         setBase64File(res.data.content);
         setIsLoadingFile(false);
       } catch (e) {
