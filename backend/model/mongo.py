@@ -24,7 +24,7 @@ class mongoModel:
             file_info["id"] = len(filelist)
             filelist.append(file_info)
             self.db.users.update_one({'uid':uid}, {'$set':{'files':filelist}})
-            return True
+            return file_info
         except:
             return False
         
@@ -36,7 +36,14 @@ class mongoModel:
         return out.read()
 
     def get_file(self, uid, id):
-        return self.get_user(uid)["files"][int(id)]
+        try:
+            file = self.get_user(uid)["files"][int(id)]
+            if file == None:
+                return False
+            else:
+                return file
+        except:
+            return False
 
     def get_files(self, uid, parent):
         if self.get_user(uid) is not None:
@@ -52,4 +59,15 @@ class mongoModel:
     def set_user(self, user_info):
         self.users.insert_one(user_info)
     
-    
+    def set_links(self, uid, id, data):
+        try:
+            file = self.get_user(uid)["files"][int(id)]
+            if file == None:
+                return False
+            else:
+                filelist = self.db.users.find_one({'uid':uid})["files"]
+                filelist[int(id)]["data"] = data
+                self.db.users.update_one({'uid':uid}, {'$set':{'files':filelist}})
+                return True
+        except:
+            return False
