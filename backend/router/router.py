@@ -1,4 +1,4 @@
-from flask import request, Blueprint, session, Response, jsonify, send_file
+from flask import request, Blueprint, session, Response, jsonify, send_file, make_response
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
@@ -135,7 +135,9 @@ def receive(id):
         if file:
             path = s.download(file)
             if path:
-                return send_file(path, as_attachment=True)
+                response = make_response(send_file(path))
+                response.headers['Content-Transfer-Encoding'] = 'base64'
+                return response
             else:
                 return jsonify({'message' : 'fail', 'error':'download'})    
         else:
