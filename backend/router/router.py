@@ -82,10 +82,15 @@ def upload(id):
     f.save(filepath)
 
     if "uid" in session:
-        if s.upload(session["uid"], secure_filename(f.filename), id):
-            return jsonify({'message':'success', 'id':int(id)})
+        file = s.upload(session["uid"], secure_filename(f.filename), id)
+        if file:
+            if s.process_file(session["uid"], file):
+                return jsonify({'message':'success'})
+            else:
+                return jsonify({'message':'fail', 'error':'process_file'})    
         else:
-            return jsonify({'message':'fail'})
+            return jsonify({'message':'fail', 'error':'upload'})
+    #Guest
     else:
         file_info = {
         "name" : f.filename.split(".")[0],
@@ -106,14 +111,12 @@ def makedir(id):
 @cross_origin(supports_credentials=True)
 def viewer(id, pagenum):
     if "uid" in session:
-        file = s.file(session["uid"], int(id))
-        if file:
-            if s.process_file(file):
-                return jsonify({'message':'success','links':links})
-            else:
-                return jsonify({'message':'fail'})    
+        links = s.get_link(session["uid"], id, pagenum)
+        if links:
+            return jsonify({'message':'success','links':links["links"]})
         else:
-            return jsonify({'message':'fail'})
+            return jsonify({'message':'fail'})        
+        
     # Guest
     else:
         file_info = request.args['fileinfo']

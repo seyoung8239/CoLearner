@@ -56,10 +56,12 @@ def upload(uid, filename, cdi):
         "parent" : int(cdi),
     }
     with open(file_path, "rb") as f:
-        if mm.put_file(uid, f, file_info):
-            return True
+        file_info = mm.put_file(uid, f, file_info)
+        if file_info:
+            return file_info
         else:
             return False
+    
 
 def makedir(uid, dirname, cdi):
     dir_info = {
@@ -85,8 +87,13 @@ def read_file(file_info):
     return pr, ft
     
 def read_page(pr, pagenum, ft):
+    links = []
     if ft == "pdf":
-        return pr.pages[pagenum].extract_text()
+        text = pr.pages[pagenum].extract_text()
+        #text 분석 후 키워드 추출, 크롤링...작업, 반환값은 links 리스트
+        # test example
+        links.append("https://www.youtube.com")
+        return links
     elif ft == "ppt" or ft == "pptx":
         text_runs = []
         slides = pr.slides
@@ -106,3 +113,21 @@ def download(file_info):
         return path
     else:
         return False
+
+def process_file(uid, file_info):
+    pr, ft = read_file(file_info)
+    pagelen = len(pr.pages)
+    data = []
+    for i in range(pagelen):
+        data.append({"links" : read_page(pr, i, ft)})
+    if mm.set_links(uid, file_info["id"], data):
+        return True
+    else:
+        return False
+
+def get_link(uid, id, pagenum):
+    link = mm.get_file(uid, id)["data"][int(pagenum)]
+    if link == None:
+        return False
+    else:
+        return link
