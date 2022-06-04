@@ -2,6 +2,7 @@ from flask import request, Blueprint, session, Response, jsonify, send_file, mak
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
+from base64 import b64encode
 
 bp = Blueprint("main", __name__, url_prefix="/")
 
@@ -75,9 +76,6 @@ def finder(id):
 @cross_origin(supports_credentials=True)
 def upload(id):
     f = request.files['file']
-    filepath = "./static/files/"+secure_filename(f.filename)
-    f.save(filepath)
-
     if "uid" in session:
         file = s.upload(session["uid"], secure_filename(f.filename), id)
         if file:
@@ -87,13 +85,8 @@ def upload(id):
                 return jsonify({'message':'fail', 'error':'process_file'})    
         else:
             return jsonify({'message':'fail', 'error':'upload'})
-    #Guest
     else:
-        file_info = {
-        "name" : f.filename.split(".")[0],
-        "type" : f.filename.split(".")[-1].upper(),
-        }
-        return jsonify({'message':'success', 'id':0, 'file_info':file_info})
+        return jsonify({'message':'fail', 'error':'not authorized'})
 
 @bp.route("/makedir/<id>", methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -119,14 +112,9 @@ def viewer(id, pagenum):
         
     # Guest
     else:
-        file_info = request.args['fileinfo']
-        pr, ft = s.read_file(file_info)
-        if pr == None or ft == None:
-            return jsonify({'message':'fail'})
-        else:
-            content = s.read_page(pr, int(pagenum), ft)
-            return jsonify({'message':'success','content':content})
-
+        links = s.get_link(None, None, pagenum)
+        return jsonify({'message':'success','links':links["links"]})
+        
 @bp.route("/receive/<id>", methods=['GET'])
 @cross_origin(supports_credentials=True)
 def receive(id):
@@ -135,12 +123,30 @@ def receive(id):
         if file:
             path = s.download(file)
             if path:
-                response = make_response(send_file(path))
-                response.headers['Content-Transfer-Encoding'] = 'base64'
-                return response
+                with open(path, "rb") as binary_file:
+                    encoded_string = b64encode(binary_file.read())
+                return jsonify({'message':'success', 'content':encoded_string.decode('utf-8')})
             else:
                 return jsonify({'message' : 'fail', 'error':'download'})    
         else:
             return jsonify({'message' : 'fail', 'error':'get file'})    
     else:
         return jsonify({'message' : 'fail', 'error':'not authorized'})
+
+@bp.route("/guest", methods=['POST'])
+@cross_origin(supports_credentials=True)
+def guest():
+    f = request.files['file']
+    filepath = "./static/files/"+secure_filename(f.filename)
+    f.save(filepath)
+
+    file_info = {
+        "type" : f.filename.split(".")[-1].upper(),
+        "path" : filepath,
+    }
+    s.process_file(None, file_info)
+    with open(filepath, "rb") as binary_file:
+        encoded_string = b64encode(binary_file.read())
+    return jsonify({'message':'success', 'content':encoded_string.decode('utf-8')})
+    
+

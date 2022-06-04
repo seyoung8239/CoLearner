@@ -1,3 +1,4 @@
+from genericpath import exists
 from model.mongo import mongoModel
 import os
 import pdfplumber
@@ -5,6 +6,7 @@ from pptx import Presentation
 from requests import get
 
 mm = mongoModel()
+guest_links = []
 
 def verify(uid, pwd):
     userinfo = mm.get_user(uid)
@@ -76,8 +78,10 @@ def makedir(uid, dirname, cdi):
 
 def read_file(file_info):
     ft = file_info["type"].lower()
-    path = "./static/files/"+file_info["name"]+"."+ft
-    download(file_info)
+    if file_info["path"]:
+        path = file_info["path"]
+    else:
+        path = download(file_info)
         
     if ft == "pdf":
         pr = pdfplumber.open(path)
@@ -106,6 +110,8 @@ def read_page(pr, pagenum, ft):
 
 def download(file_info):
     path = "./static/files/"+file_info["name"]+"."+file_info["type"].lower()
+    if os.path.exists(path):
+        return False
     if 'fileid' in file_info:
         file = mm.get_file_from_fs(file_info['fileid'])
         with open(path, "wb") as f:
@@ -117,17 +123,27 @@ def download(file_info):
 def process_file(uid, file_info):
     pr, ft = read_file(file_info)
     pagelen = len(pr.pages)
-    data = []
-    for i in range(pagelen):
-        data.append({"links" : read_page(pr, i, ft)})
-    if mm.set_links(uid, file_info["id"], data):
-        return True
+    if uid is not None:   
+        data = []
+        for i in range(pagelen):
+            data.append({"links" : read_page(pr, i, ft)})
+        if mm.set_links(uid, file_info["id"], data):
+            return True
+        else:
+            return False
+    #Guest
     else:
-        return False
-
+        guest_links.clear()
+        for i in range(pagelen):
+            guest_links.append({"links" : read_page(pr, i, ft)})
+        
 def get_link(uid, id, pagenum):
-    link = mm.get_file(uid, id)["data"][int(pagenum)]
-    if link == None:
-        return False
+    if uid is not None:
+        link = mm.get_file(uid, id)["data"][int(pagenum)]
+        if link == None:
+            return False
+        else:
+            return link
+    #Guest
     else:
-        return link
+        return guest_links[int(pagenum)]
