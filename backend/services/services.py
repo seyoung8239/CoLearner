@@ -99,8 +99,10 @@ def read_page(pr, pagenum, ft):
     if ft == "pdf":
         text = pr.pages[pagenum].extract_text()
         keywords = extract_keyword(text)
-        links = y.get_youtube_links(keywords)
-        return links
+        youtube_links = y.get_youtube_links(keywords)
+        google_links = g.get_google_links(keywords)
+        return youtube_links + google_links
+
     elif ft == "ppt" or ft == "pptx":
         text_runs = []
         slides = pr.slides
@@ -137,6 +139,7 @@ def process_file(uid, file_info):
         guest_links.clear()
         for i in range(pagelen):
             guest_links.append({"links" : read_page(pr, i, ft)})
+        print(guest_links)
         
 def get_link(uid, id, pagenum):
     if uid is not None:
