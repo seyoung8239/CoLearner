@@ -24,7 +24,6 @@ const Landing = () => {
 
   return (
     <>
-    <h1 className = "logo">Colearner</h1>
     <div className = "btns">
       <button className = "btn"  onClick={()=> handleClick("signin")}>로그인하기</button>
       <button  className = "btn" onClick={()=> handleClick("signup")}>회원가입 하기</button>

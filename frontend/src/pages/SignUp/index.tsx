@@ -1,11 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useStore from '../../store/store';
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestFormPost } from '../../utils/api';
 import styles from './SignUp.module.css';
 
 const SignUp = () => {
   const navigate = useNavigate();
+  const store = useStore();
+
   const [uid, setUid] = useState<string>();
   const [pwd, setPwd] = useState<string>();
 
@@ -17,9 +20,12 @@ const SignUp = () => {
       const { data } = await requestFormPost<
         BasicAPIResponseType<{ message: string }>
       >(apiOrigin + '/signup', {}, formData);
+      console.log(data);
       if (data.message === 'success') {
-        alert('회원가입에 성공했습니다.')
-        navigate('/signin');
+        store.login();
+        store.setName(uid);
+        alert('회원가입에 성공했습니다.');
+        navigate('/finder/0');
       } else {
         alert('회원가입에 실패했습니다.');
       }
@@ -27,7 +33,6 @@ const SignUp = () => {
   }, [navigate, uid, pwd]);
 
   return <>
-  <h1 className={styles.logo}>Colearner</h1>
     <div className={styles.container}>
       <h1 className={styles.title}>회원가입</h1>
       <form onSubmit={handleSubmit}>

@@ -1,5 +1,6 @@
 import React from 'react'
 import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Header from './layouts/Header';
 import Landing from './pages/Landing';
 import SignIn from './pages/SignIn';
 import Finder from './pages/Finder';
@@ -9,6 +10,7 @@ import Viewer from './pages/Viewer';
 
 function App() {
   return (<BrowserRouter>
+    <Header />
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/signin" element={<SignIn />} />

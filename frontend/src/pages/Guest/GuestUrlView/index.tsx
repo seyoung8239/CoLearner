@@ -27,7 +27,7 @@ const GuestUrlView = ({ curPage }: Props) => {
       }
     }
     fetchUrls();
-  }, []);
+  }, [curPage]);
 
   if (!urlList.length) return <>Loading...</>
 

@@ -25,9 +25,8 @@ def signup():
         return jsonify({'message':'fail', 'error':'no pwd'})
     
     if s.signup(uid, pwd):
-        if s.verify(uid, pwd):
-            session["uid"] = uid
-            return jsonify({'message':'success'})
+        session["uid"] = uid
+        return jsonify({'message':'success'})
     else:
         return jsonify({'message':'fail', 'error':'uid already exists'})
 

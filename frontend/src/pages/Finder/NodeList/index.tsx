@@ -5,25 +5,26 @@ import useStore from '../../../store/store';
 type Props = {
   isLoading: boolean
   isData: boolean
+  setDirId: React.Dispatch<React.SetStateAction<number>>
 }
 
-const NodeList = ({ isLoading, isData }: Props) => {
+const NodeList = ({ isLoading, isData, setDirId }: Props) => {
   const store = useStore();
   const navigate = useNavigate();
 
   const handleClickDir = useCallback((nodeId: number) => {
     navigate(`/finder/${nodeId}`);
-    window.location.reload();
-  }, []);
+    setDirId(nodeId);
+  }, [navigate, setDirId]);
+
   const handleClickFile = useCallback((nodeId: number) => {
     navigate(`/viewer/${nodeId}`);
-  }, []);
+  }, [navigate]);
 
   if (!isLoading) return <>Loading...</>
   if (!isData) return <>No Data..</>
   
   return (<>
-    {console.log(store.nodes)}  
     {store.nodes.map((node) => (
       node.type === 'DIR' ?
         <div key={node.id} onClick={() => handleClickDir(node.id)}>[DIR]{node.name}</div> :
@@ -32,4 +33,4 @@ const NodeList = ({ isLoading, isData }: Props) => {
   </>)
 }
 
-export default NodeList;
+export default React.memo(NodeList);
