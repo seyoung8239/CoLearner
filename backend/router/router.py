@@ -76,6 +76,9 @@ def finder(id):
 @cross_origin(supports_credentials=True)
 def upload(id):
     f = request.files['file']
+    filepath = "./static/files/"+secure_filename(f.filename)
+    f.save(filepath)
+    
     if "uid" in session:
         file = s.upload(session["uid"], secure_filename(f.filename), id)
         if file:
