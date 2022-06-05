@@ -1,12 +1,16 @@
 from genericpath import exists
 from model.mongo import mongoModel
+from engine.youtube_crawler import youtube
+from engine.google_crawler import google
 import os
 import pdfplumber
-import services.web_crawler as wc
 from pptx import Presentation
-from requests import get
+from engine.keyword_extraction import extract_keyword
 
 mm = mongoModel()
+y = youtube()
+g = google()
+
 guest_links = []
 
 def verify(uid, pwd):
@@ -94,9 +98,8 @@ def read_file(file_info):
 def read_page(pr, pagenum, ft):
     if ft == "pdf":
         text = pr.pages[pagenum].extract_text()
-        #text로 키워드 추출
-        keywords = ["python", "beautifulsoup"]
-        links = wc.get_youtube_links(keywords)
+        keywords = extract_keyword(text)
+        links = y.get_youtube_links(keywords)
         return links
     elif ft == "ppt" or ft == "pptx":
         text_runs = []
