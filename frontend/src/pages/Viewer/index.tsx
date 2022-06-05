@@ -1,23 +1,47 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
 import { Document, Page, pdfjs } from 'react-pdf';
 
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestGet } from '../../utils/api';
 
-import GuestUrlView from './GuestUrlView'
+import UrlView from './UrlView';
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
 
-const Guest = () => {
-  const [file, setFile] = useState<File>();
+type Params = {
+  nodeId: string;
+}
+
+type GetBase64File = {
+  content: string;
+  message: string;
+}
+
+const Viewer = () => {
+  const { nodeId } = useParams<Params>();
+  const [fileId, setFileId] = useState<number>();
   const [curPage, setCurPage] = useState<number>(1);
   const [endPage, setEndPage] = useState<number>(100);
   const [base64File, setBase64File] = useState<string>();
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(true);
 
   useEffect(() => {
+    setFileId(parseInt(nodeId as string));
+    const fetchFile = async () => {
+      try {
+        const res = await requestGet<
+          BasicAPIResponseType<GetBase64File>
+        >(`${apiOrigin}/receive/${fileId}`, {});
+        setBase64File(res.data.content);
+        setIsLoadingFile(false);
+      } catch (e) {
+        console.error(e);
+      }
+    }
 
-  }, []);
+    if (fileId) fetchFile();
+  }, [fileId]);
 
   const handleChangePage = (offset: number) => {
     const newPage = curPage + offset;
@@ -30,42 +54,20 @@ const Guest = () => {
   const onDocumentLoadSuccess = (endPage: any) => {
     console.log('endPage', endPage);
     setEndPage(endPage._pdfInfo.numPages);
+    setIsLoadingFile(false);
   }
 
-  const handleChangeFile = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    let newFile = event.target.files![0]
-    setFile(newFile);
-  }, []);
-
-  const handleUploadFile = useCallback(() => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file! as Blob);
-    reader.onload = () => {
-      console.log(reader.result)
-      setBase64File(reader.result as string);
-      setIsLoadingFile(false);
-    }
-  }, [file]);
-
   return (<>
-    {isLoadingFile ?
-      <div>
-        파일을 올려주세요
-      </div> :
-      <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+    {!isLoadingFile &&
+      <Document file={`data:application/pdf;base64,${base64File}`} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
         <Page pageNumber={curPage} />
       </Document>
     }
-
-    <GuestUrlView curPage={curPage} />
+    <UrlView fileId={fileId!} curPage={curPage} />
     <p>{curPage} / {endPage}</p>
     <button name='before' onClick={() => handleChangePage(-1)}>이전</button>
     <button name='before' onClick={() => handleChangePage(+1)}>다음</button>
-
-    <input type="file" onChange={handleChangeFile} />
-    <button onClick={handleUploadFile}>파일 업로드 하기</button>
   </>)
 }
 
-export default Guest;
-
+export default Viewer;

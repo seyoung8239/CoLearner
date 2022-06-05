@@ -1,4 +1,4 @@
-from flask import request, Blueprint, session, Response, jsonify, send_file
+from flask import request, Blueprint, session, Response, jsonify, send_file, make_response
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin

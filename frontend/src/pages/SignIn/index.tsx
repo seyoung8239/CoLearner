@@ -30,12 +30,14 @@ const SignIn = () => {
 
   return (<>
     <h1 className={styles.logo}>Colearner</h1>
-    <h1 className={styles.title}>로그인</h1>
-    <form onSubmit={handleSubmit}>
-      <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />
-      <input className={styles.pwBox} type="password" placeholder="비밀번호를 입력해주세요" onChange={e => setPwd(e.target.value as string)} />
-      <button className={styles.button} type='submit'>로그인</button>
-    </form>
+      <div className={styles.container}>
+        <h2 className={styles.title}>로그인</h2>
+        <form onSubmit={handleSubmit}>
+          <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />
+          <input className={styles.pwBox} type="password" placeholder="비밀번호를 입력해주세요" onChange={e => setPwd(e.target.value as string)} />
+          <button className={styles.button} type='submit'>로그인</button>
+        </form>
+      </div>
   </>);
 }
 
