@@ -30,12 +30,14 @@ class youtube:
 
         for item in search_response['items']:
             if 'videoId' in item['id']:
-                links.append(self.create_dict(item['snippet']['title'], item['snippet']['description'], item['id']['videoId']))
+                links.append(self.create_dict(item['id']['videoId']))
 
         return links
 
-    def create_dict(self, title, description, videoId):
+    def create_dict(self, videoId):
         result = {
+            "type" : 'youtube',
+            "title" : "",
             "url" : 'https://www.youtube.com/embed/'+videoId,
         }
         return result
