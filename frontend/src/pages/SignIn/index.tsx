@@ -10,6 +10,7 @@ const SignIn = () => {
   const [pwd, setPwd] = useState<string>();
 
   const handleSubmit = useCallback(async (e: any) => {
+    e.preventDefault(); 
     const formData = new FormData();
     if (uid && pwd) {
       formData.append('uid', uid);
@@ -20,7 +21,7 @@ const SignIn = () => {
       console.log(data)
       if (data.message === 'success') {
         alert('로그인에 성공했습니다.')
-        navigate('/home');
+        navigate('/finder/0');
       } else {
         alert('로그인에 실패했습니다.');
       }

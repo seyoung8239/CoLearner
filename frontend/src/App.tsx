@@ -5,6 +5,7 @@ import SignIn from './pages/SignIn';
 import Finder from './pages/Finder';
 import SignUp from './pages/SignUp';
 import Guest from './pages/Guest';
+import Viewer from './pages/Viewer';
 
 function App() {
   return (<BrowserRouter>
@@ -13,8 +14,8 @@ function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<SignUp />} />
       <Route path="/guest" element={<Guest />} />
-      <Route path="/finder" element={<Finder />} />
-      {/* <Route path="/finder/:nodeId?" element={<Finder />} /> */}
+      <Route path="/finder/:nodeId" element={<Finder />} />
+      <Route path='/viewer/:nodeId' element={<Viewer />}></Route>
     </Routes>
   </BrowserRouter>)
 }

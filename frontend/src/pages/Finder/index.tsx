@@ -6,16 +6,20 @@ import useStore from '../../store/store';
 import { BasicAPIResponseType, getNodesType, UploadType } from '../../types';
 
 import NodeList from './NodeList';
+import DirAddModal from './DirAddModal';
 
 const Finder = () => {
   const store = useStore();
 
+  const [isData, setIsData] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const [file, setFile] = useState<File>();
   const { nodeId } = useParams();
   const dirId: number = nodeId ? parseInt(nodeId) : 0;
 
-  const handleClickAdd = useCallback(
+  const handleUploadFile = useCallback(
     async () => {
       if (file) {
         const formData = new FormData();
@@ -23,8 +27,10 @@ const Finder = () => {
         const { data } = await requestFormPost<
           BasicAPIResponseType<UploadType>
         >(apiOrigin + `/upload/${dirId}`, {}, formData);
-        if (data.message === 'success')
+        if (data.message === 'success') {
           console.log('success add dir');
+          window.location.reload();
+        }   
       }
     }, [file, nodeId]);
 
@@ -39,7 +45,11 @@ const Finder = () => {
         const res = await requestGet<
           BasicAPIResponseType<getNodesType>
         >(apiOrigin + `/finder/${dirId}`, {});
-        store.load(res.data.nodes);
+        if (res.data.files.length) {
+          setIsData(true);
+          store.load(res.data.files);
+        }
+        console.log(res.data.files);
         setIsLoading(true);
       } catch (e) {
         console.log(e);
@@ -48,12 +58,13 @@ const Finder = () => {
     fetchData();
   }, []);
 
-
   return <>
     <h1>Finder</h1>
     <input type="file" onChange={handleChangeFile} />
-    <button onClick={handleClickAdd}>add file</button>
-    <NodeList isLoading={isLoading} />
+    <button onClick={handleUploadFile}>파일 업로드 하기</button>
+    <button onClick={e=>setIsModalOpen(true)}>새로운 디렉터리 생성</button>
+    <NodeList isLoading={isLoading} isData={isData} />
+    <DirAddModal dirId={dirId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
   </>
 }
 
