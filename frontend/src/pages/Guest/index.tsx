@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams } from 'react-router-dom';
 import { Document, Page, pdfjs } from 'react-pdf';
 
 import { BasicAPIResponseType } from '../../types';
@@ -41,17 +40,19 @@ const Guest = () => {
   const handleUploadFile = useCallback(() => {
     const reader = new FileReader();
     reader.readAsDataURL(file! as Blob);
-    setBase64File(reader.result as string);
-    console.log(reader.result)
-    setIsLoadingFile(false);
-  }, []);
+    reader.onload = () => {
+      console.log(reader.result)
+      setBase64File(reader.result as string);
+      setIsLoadingFile(false);
+    }
+  }, [file]);
 
   return (<>
     {isLoadingFile ?
       <div>
         파일을 올려주세요
       </div> :
-      <Document file={`data:application/pdf;base64,${base64File}`} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+      <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
         <Page pageNumber={curPage} />
       </Document>
     }
