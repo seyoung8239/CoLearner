@@ -1,11 +1,16 @@
 from genericpath import exists
 from model.mongo import mongoModel
+from engine.youtube_crawler import youtube
+from engine.google_crawler import google
 import os
 import pdfplumber
 from pptx import Presentation
-from requests import get
+from engine.keyword_extraction import extract_keyword
 
 mm = mongoModel()
+y = youtube()
+g = google()
+
 guest_links = []
 
 def verify(uid, pwd):
@@ -78,7 +83,7 @@ def makedir(uid, dirname, cdi):
 
 def read_file(file_info):
     ft = file_info["type"].lower()
-    if file_info["path"]:
+    if "path" in file_info:
         path = file_info["path"]
     else:
         path = download(file_info)
@@ -91,13 +96,13 @@ def read_file(file_info):
     return pr, ft
     
 def read_page(pr, pagenum, ft):
-    links = []
     if ft == "pdf":
         text = pr.pages[pagenum].extract_text()
-        #text 분석 후 키워드 추출, 크롤링...작업, 반환값은 links 리스트
-        # test example
-        links.append("https://www.youtube.com")
-        return links
+        keywords = extract_keyword(text)
+        youtube_links = y.get_youtube_links(keywords)
+        google_links = g.get_google_links(keywords)
+        return youtube_links + google_links
+
     elif ft == "ppt" or ft == "pptx":
         text_runs = []
         slides = pr.slides
@@ -110,9 +115,6 @@ def read_page(pr, pagenum, ft):
 
 def download(file_info):
     path = "./static/files/"+file_info["name"]+"."+file_info["type"].lower()
-    print(os.path.exists(path))
-    # if os.path.exists(path):
-    #     return False
     if 'fileid' in file_info:
         file = mm.get_file_from_fs(file_info['fileid'])
         with open(path, "wb") as f:
@@ -137,6 +139,7 @@ def process_file(uid, file_info):
         guest_links.clear()
         for i in range(pagelen):
             guest_links.append({"links" : read_page(pr, i, ft)})
+        print(guest_links)
         
 def get_link(uid, id, pagenum):
     if uid is not None:
