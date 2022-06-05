@@ -13,6 +13,8 @@ type GetUrls = {
 }
 
 type LinkType = {
+  title: string;
+  type: string;
   url: string;
 }
 
@@ -37,9 +39,13 @@ const UrlView = ({ fileId, curPage }: Props) => {
   console.log(urlList)
   return <>
     <p>공부자료 목록</p>
-    {urlList.map((el, i) =>
-      <iframe src={el.url} frameBorder="0" key={i}></iframe>
-    )}
+    <ul>
+      {urlList.map((el, i) =>
+        el.type === 'youtube' ?
+          <li key={i}><iframe src={el.url} frameBorder="0" title={i.toString()}></iframe></li> :
+          <li key={i}><a href={el.url} key={i} target='_blank' rel="noreferrer">{el.title}</a></li>
+      )}
+    </ul>
   </>
 }
 
