@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-
-const SignUp = () => {
-  return <div>Sign Up Page</div>
-}
-
-export default SignUp;
-=======
 import React, { useState, useEffect, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -77,4 +68,4 @@ const Guest = () => {
 }
 
 export default Guest;
->>>>>>> bdab038e8e898970043681728300ff583e655d1c
+
