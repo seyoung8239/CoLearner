@@ -2,6 +2,7 @@ from genericpath import exists
 from model.mongo import mongoModel
 import os
 import pdfplumber
+import services.web_crawler as wc
 from pptx import Presentation
 from requests import get
 
@@ -78,7 +79,7 @@ def makedir(uid, dirname, cdi):
 
 def read_file(file_info):
     ft = file_info["type"].lower()
-    if file_info["path"]:
+    if "path" in file_info:
         path = file_info["path"]
     else:
         path = download(file_info)
@@ -91,12 +92,11 @@ def read_file(file_info):
     return pr, ft
     
 def read_page(pr, pagenum, ft):
-    links = []
     if ft == "pdf":
         text = pr.pages[pagenum].extract_text()
-        #text 분석 후 키워드 추출, 크롤링...작업, 반환값은 links 리스트
-        # test example
-        links.append("https://www.youtube.com")
+        #text로 키워드 추출
+        keywords = ["python", "beautifulsoup"]
+        links = wc.get_youtube_links(keywords)
         return links
     elif ft == "ppt" or ft == "pptx":
         text_runs = []
@@ -110,8 +110,6 @@ def read_page(pr, pagenum, ft):
 
 def download(file_info):
     path = "./static/files/"+file_info["name"]+"."+file_info["type"].lower()
-    if os.path.exists(path):
-        return False
     if 'fileid' in file_info:
         file = mm.get_file_from_fs(file_info['fileid'])
         with open(path, "wb") as f:
