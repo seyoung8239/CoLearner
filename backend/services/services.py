@@ -1,7 +1,7 @@
 from genericpath import exists
 from model.mongo import mongoModel
 from engine.youtube_crawler import youtube
-from engine.google_crawler import google
+# from engine.google_crawler import google
 import os
 import pdfplumber
 from pptx import Presentation
@@ -9,7 +9,7 @@ from engine.keyword_extraction import extract_keyword
 
 mm = mongoModel()
 y = youtube()
-g = google()
+# g = google()
 
 guest_links = []
 
