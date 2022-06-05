@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { BasicAPIResponseType } from '../../../types';
-
 import { apiOrigin, requestGet } from '../../../utils/api';
 
 type Props = {
@@ -40,4 +39,4 @@ const UrlView = ({ fileId, curPage }: Props) => {
   </>
 }
 
-export default UrlView
+export default UrlView;
