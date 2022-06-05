@@ -26,7 +26,7 @@ const Header = () => {
       navigate('finder/0');
     else
       navigate('/');
-  }, [navigate, store]);
+  }, [navigate]);
 
   return <>
     <h1 onClick={handleClickMain}>Colearner</h1>

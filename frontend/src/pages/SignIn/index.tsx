@@ -34,7 +34,6 @@ const SignIn = () => {
   }, [navigate, uid, pwd, store]);
 
   return (<>
-    <h1 className={styles.logo}>Colearner</h1>
       <div className={styles.container}>
         <h2 className={styles.title}>로그인</h2>
         <form onSubmit={handleSubmit}>

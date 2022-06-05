@@ -30,7 +30,7 @@ const SignUp = () => {
         alert('회원가입에 실패했습니다.');
       }
     }
-  }, [navigate, uid, pwd, store]);
+  }, [navigate, uid, pwd]);
 
   return <>
     <div className={styles.container}>
