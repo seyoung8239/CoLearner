@@ -13,10 +13,10 @@ const NodeList = ({ isLoading, isData }: Props) => {
 
   const handleClickDir = useCallback((nodeId: number) => {
     navigate(`/finder/${nodeId}`);
-    window.location.reload()
+    window.location.reload();
   }, []);
   const handleClickFile = useCallback((nodeId: number) => {
-
+    navigate(`/viewer/${nodeId}`);
   }, []);
 
   if (!isLoading) return <>Loading...</>
