@@ -1,11 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useStore from '../../store/store';
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestFormPost } from '../../utils/api';
 import styles from './SignIn.module.css';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const store = useStore();
+
   const [uid, setUid] = useState<string>();
   const [pwd, setPwd] = useState<string>();
 
@@ -20,16 +23,17 @@ const SignIn = () => {
       >(apiOrigin + '/signin', {}, formData);
       console.log(data)
       if (data.message === 'success') {
+        store.login();
+        store.setName(uid);
         alert('로그인에 성공했습니다.')
         navigate('/finder/0');
       } else {
         alert('로그인에 실패했습니다.');
       }
     }
-  }, [navigate, uid, pwd]);
+  }, [navigate, uid, pwd, store]);
 
   return (<>
-    <h1 className={styles.logo}>Colearner</h1>
     <h1 className={styles.title}>로그인</h1>
     <form onSubmit={handleSubmit}>
       <input className={styles.idBox} type="text" placeholder="아이디를 입력해주세요" onChange={e => setUid(e.target.value as string)} />

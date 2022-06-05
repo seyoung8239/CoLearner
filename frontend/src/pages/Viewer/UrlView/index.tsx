@@ -8,12 +8,16 @@ type Props = {
 }
 
 type GetUrls = {
-  links: string[];
+  links: LinkType[];
   message: string;
 }
 
+type LinkType = {
+  url: string;
+}
+
 const UrlView = ({ fileId, curPage }: Props) => {
-  const [urlList, setUrlList] = useState<string[]>([]);
+  const [urlList, setUrlList] = useState<LinkType[]>([]);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -27,14 +31,14 @@ const UrlView = ({ fileId, curPage }: Props) => {
       }
     }
     if (fileId) fetchUrls();
-  }, [fileId]);
+  }, [fileId, curPage]);
 
   if (!urlList.length) return <>Loading...</>
-
+  console.log(urlList)
   return <>
     <p>공부자료 목록</p>
     {urlList.map((el, i) =>
-      <a href={el} key={i}>{el}</a>
+      <iframe src={el.url} frameBorder="0" key={i}></iframe>
     )}
   </>
 }
