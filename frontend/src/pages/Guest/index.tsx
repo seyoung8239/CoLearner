@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-import { BasicAPIResponseType } from '../../types';
-import { apiOrigin, requestGet } from '../../utils/api';
+import { BasicAPIResponseType, UploadType } from '../../types';
+import { apiOrigin, requestFormPost, requestGet } from '../../utils/api';
 
 import GuestUrlView from './GuestUrlView'
 import "../../sytles/viewer.css";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa"; 
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
 
@@ -16,9 +17,16 @@ const Guest = () => {
   const [endPage, setEndPage] = useState<number>(100);
   const [base64File, setBase64File] = useState<string>();
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(true);
+  const [isReqed, setIsReqed] = useState<boolean>(false);
 
   useEffect(() => {
-
+    const logoutFirst = async () => {
+      const res = await requestGet<
+        BasicAPIResponseType<{ message: string }>
+      >(apiOrigin + '/logout', {});
+      console.log(res);
+    }
+    logoutFirst();
   }, []);
 
   const handleChangePage = (offset: number) => {
@@ -47,36 +55,53 @@ const Guest = () => {
       setBase64File(reader.result as string);
       setIsLoadingFile(false);
     }
+    const uploadFile = async () => {
+      if (file) {
+        try {
+          const formData = new FormData();
+          formData.append('file', file, file.name);
+          const { data } = await requestFormPost<
+            BasicAPIResponseType<UploadType>
+          >(apiOrigin + '/guest', {}, formData);
+          if (data.message === 'success') {
+            console.log('file upload success');
+            setIsReqed(true);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    uploadFile();
   }, [file]);
 
   return (<>
-  <div className = "contents">
+    <div className="contents">
+      <div className="viewer">
+        <div className="titlebar">파일 이름</div>
+        {isLoadingFile ?
+          <div className="uploadms">
+            파일을 업로드 해주세요
+          </div> :
+          <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+            <Page pageNumber={curPage} />
+          </Document>
+        }
 
-  <div className = "viewer">
-  <div className = "titlebar">파일 이름</div>
-    {isLoadingFile ?
-      <div className = "uploadms">
-        파일을 업로드 해주세요
-      </div> :
-      <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
-        <Page pageNumber={curPage} />
-      </Document>
-    }
+        <div className="btnbar">
+          <button className="backbtn" name='before' onClick={() => handleChangePage(-1)}><FaChevronLeft size="20" /></button>
+          <p>{curPage} / {endPage}</p>
+          <button className="nextbtn" name='before' onClick={() => handleChangePage(+1)}><FaChevronRight size="20" /></button>
+        </div>
 
-    <div className = "btnbar">
-    <button className = "backbtn" name='before' onClick={() => handleChangePage(-1)}><FaChevronLeft size="20"/></button>
-    <p>{curPage} / {endPage}</p> 
-    <button className = "nextbtn"name='before' onClick={() => handleChangePage(+1)}><FaChevronRight size="20"/></button>
-    </div>
-
-   <div className = "uploadbar">
-    <input className = "file" type="file"  onChange={handleChangeFile} />
-    <button className = "upload" onClick={handleUploadFile}>파일열기</button>
-    </div>
-    </div>
-    <div className = "urlviewer">
-    <GuestUrlView curPage={curPage} />
-    </div>
+        <div className="uploadbar">
+          <input className="file" type="file" onChange={handleChangeFile} />
+          <button className="upload" onClick={handleUploadFile}>파일열기</button>
+        </div>
+      </div>
+      <div className="urlviewer">
+        <GuestUrlView curPage={curPage} isReqed={isReqed} />
+      </div>
     </div>
   </>)
 
