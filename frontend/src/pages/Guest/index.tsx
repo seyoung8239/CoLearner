@@ -5,8 +5,9 @@ import { BasicAPIResponseType, UploadType } from '../../types';
 import { apiOrigin, requestFormPost, requestGet } from '../../utils/api';
 
 import GuestUrlView from './GuestUrlView'
-import "./guest.css";
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import "../../sytles/viewer.css";
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa"; 
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
 
