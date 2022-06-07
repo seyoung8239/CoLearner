@@ -13,6 +13,7 @@ const SignUp = () => {
   const [pwd, setPwd] = useState<string>();
 
   const handleSubmit = useCallback(async (e: any) => {
+    e.preventDefault();
     const formData = new FormData();
     if (uid && pwd) {
       formData.append('uid', uid);
