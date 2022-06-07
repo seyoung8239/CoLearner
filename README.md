@@ -28,8 +28,9 @@ KNU Open Source Programming2022 Team3
 # 실행방법
 ## backend
 ### Local Server
-python >= 3.8
-ubuntu:20.04
+python >= 3.8 
+
+ubuntu:20.04 
 ```
 $ cd backend
 $ python -m venv venv
@@ -50,6 +51,7 @@ $ npm i
 $ npm start
 ```
 ## API Docs
-Swagger UI 기반의 RESTful API 문서
+Swagger UI 기반의 RESTful API 문서 
+
 `http://localhost:5000/api`
 
