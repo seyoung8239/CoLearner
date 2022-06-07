@@ -1,4 +1,5 @@
 # CoLearner
+![alt text](https://user-images.githubusercontent.com/53702978/172449737-19eaf749-1aad-4452-b89d-d2b2198b8313.png)
 강의자료 기반 공부자료 추천 서비스입니다
 
 KNU Open Source Programming2022 Team3 
