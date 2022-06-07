@@ -1,0 +1,38 @@
+.newbar{
+    display: flex;
+    width: 1400px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    color:white;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.fileupload{
+    display:flex;
+    margin-right:50px;
+    width: 90px;
+    height: 36px;
+    line-height: 36px;
+    text-align:center;
+    background: #3384FE;
+    border-radius: 10px;
+    border:none;
+    font-size: 14px;
+    color:white;
+}
+
+.newdr{
+    display:flex;
+    width: 90px;
+    height: 36px;
+    line-height: 36px;
+    text-align:center;
+    background: #3384FE;
+    border-radius: 10px;
+    border:none;
+    font-size: 14px;
+    color:white;
+}
