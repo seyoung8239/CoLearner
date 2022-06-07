@@ -106,7 +106,7 @@ def makedir(id):
 @cross_origin(supports_credentials=True)
 def viewer(id, pagenum):
     if "uid" in session:
-        links = s.get_link(session["uid"], id, pagenum)
+        links = s.get_link(session["uid"], id, int(pagenum)-1)
         if links:
             return jsonify({'message':'success','links':links["links"]})
         else:
