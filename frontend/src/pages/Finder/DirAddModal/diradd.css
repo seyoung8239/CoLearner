@@ -1,0 +1,24 @@
+.diraddbar{
+    display: flex;
+    width: 1400px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.diradd{
+    margin-right:50px;
+    width:100px;
+    height:30px;
+    line-height: 30px;
+}
+
+.close{
+    margin-right:50px;
+    width:100px;
+    height:30px;
+    line-height: 30px;
+}

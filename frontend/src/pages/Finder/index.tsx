@@ -8,6 +8,8 @@ import { BasicAPIResponseType, getNodesType, UploadType } from '../../types';
 import NodeList from './NodeList';
 import DirAddModal from './DirAddModal';
 
+import "./finder.css"
+
 const Finder = () => {
   const store = useStore();
 
@@ -59,10 +61,14 @@ const Finder = () => {
 
   console.log(dirId)
   return <>
-    <h1>Finder</h1>
+    <h1>Colearner님의 파일목록</h1>
+
+    <div className = "newbar">
     <input type="file" onChange={handleChangeFile} />
-    <button onClick={handleUploadFile}>파일 업로드 하기</button>
-    <button onClick={e => setIsModalOpen(true)}>새로운 디렉터리 생성</button>
+    <button className = "fileupload" onClick={handleUploadFile}>새 파일 추가</button>
+    <button className = "newdr" onClick={e => setIsModalOpen(true)}>새 폴더 추가</button>
+    </div>
+
     <NodeList isLoading={isLoading} isData={isData} setDirId={setDirId} />
     <DirAddModal dirId={dirId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
   </>
