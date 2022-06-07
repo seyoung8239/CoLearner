@@ -6,7 +6,7 @@ import { apiOrigin, requestFormPost, requestGet } from '../../utils/api';
 
 import GuestUrlView from './GuestUrlView'
 import "../../sytles/viewer.css";
-import {FaChevronLeft, FaChevronRight} from "react-icons/fa"; 
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
@@ -17,9 +17,16 @@ const Guest = () => {
   const [endPage, setEndPage] = useState<number>(100);
   const [base64File, setBase64File] = useState<string>();
   const [isLoadingFile, setIsLoadingFile] = useState<boolean>(true);
+  const [isReqed, setIsReqed] = useState<boolean>(false);
 
   useEffect(() => {
-
+    const logoutFirst = async () => {
+      const res = await requestGet<
+        BasicAPIResponseType<{ message: string }>
+      >(apiOrigin + '/logout', {});
+      console.log(res);
+    }
+    logoutFirst();
   }, []);
 
   const handleChangePage = (offset: number) => {
@@ -58,6 +65,7 @@ const Guest = () => {
           >(apiOrigin + '/guest', {}, formData);
           if (data.message === 'success') {
             console.log('file upload success');
+            setIsReqed(true);
           }
         } catch (e) {
           console.error(e);
@@ -92,7 +100,7 @@ const Guest = () => {
         </div>
       </div>
       <div className="urlviewer">
-        <GuestUrlView curPage={curPage} />
+        <GuestUrlView curPage={curPage} isReqed={isReqed} />
       </div>
     </div>
   </>)

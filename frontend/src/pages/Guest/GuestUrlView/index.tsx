@@ -5,6 +5,7 @@ import { apiOrigin, requestGet } from '../../../utils/api';
 
 type Props = {
   curPage: number;
+  isReqed: boolean;
 }
 
 type GetUrls = {
@@ -18,8 +19,10 @@ type LinkType = {
   url: string;
 }
 
-const GuestUrlView = ({ curPage }: Props) => {
+const GuestUrlView = ({ curPage, isReqed }: Props) => {
   const [urlList, setUrlList] = useState<LinkType[]>([]);
+  const [isData, setIsData] = useState<boolean>(false);
+
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -27,23 +30,25 @@ const GuestUrlView = ({ curPage }: Props) => {
         const res = await requestGet<
           BasicAPIResponseType<GetUrls>
         >(`${apiOrigin}/viewer/-1/${curPage}`, {});
+        console.log(res);
         setUrlList(res.data.links);
+        setIsData(true);
       } catch (e) {
         console.error(e);
       }
     }
-    fetchUrls();
-  }, [curPage]);
+    if (isReqed) fetchUrls();
+  }, [curPage, isReqed]);
 
-  if (!urlList.length) return <>Loading...</>
+  if (!isData) return <></>
 
   return <>
     <p>공부자료 목록</p>
     {urlList.map((el, i) =>
-        el.type === 'youtube' ?
-          <li key={i}><iframe src={el.url} frameBorder="0" title={i.toString()}></iframe></li> :
-          <li key={i}><a href={el.url} key={i} target='_blank' rel="noreferrer">{el.title}</a></li>
-      )}
+      el.type === 'youtube' ?
+        <li key={i}><iframe src={el.url} frameBorder="0" title={i.toString()}></iframe></li> :
+        <li key={i}><a href={el.url} key={i} target='_blank' rel="noreferrer">{el.title}</a></li>)
+    }
   </>
 }
 
