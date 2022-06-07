@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-import { BasicAPIResponseType } from '../../types';
-import { apiOrigin, requestGet } from '../../utils/api';
+import { BasicAPIResponseType, UploadType } from '../../types';
+import { apiOrigin, requestFormPost, requestGet } from '../../utils/api';
 
 import GuestUrlView from './GuestUrlView'
 import "./guest.css";
@@ -46,40 +46,57 @@ const Guest = () => {
       setBase64File(reader.result as string);
       setIsLoadingFile(false);
     }
+    const uploadFile = async () => {
+      if (file) {
+        try {
+          const formData = new FormData();
+          formData.append('file', file, file.name);
+          const { data } = await requestFormPost<
+            BasicAPIResponseType<UploadType>
+          >(apiOrigin + '/guest', {}, formData);
+          if(data.message === 'success') {
+            console.log('file upload success');
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    }
+    uploadFile();
   }, [file]);
 
   return (<>
-  <div className = "contents">
+    <div className="contents">
 
-  <div className = "viewer">
-  <div className = "titlebar">파일 이름</div>
-    {isLoadingFile ?
-      <div className = "uploadms">
-        파일을 업로드 해주세요 😊
-      </div> :
-      <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
-        <Page pageNumber={curPage} />
-      </Document>
-    }
+      <div className="viewer">
+        <div className="titlebar">파일 이름</div>
+        {isLoadingFile ?
+          <div className="uploadms">
+            파일을 업로드 해주세요 😊
+          </div> :
+          <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+            <Page pageNumber={curPage} />
+          </Document>
+        }
 
-    <GuestUrlView curPage={curPage} />
-    <div className = "btnbar">
-    <button className = "backbtn" name='before' onClick={() => handleChangePage(-1)}>이전</button>
-    <p>{curPage} / {endPage}</p> 
-    <button className = "nextbtn"name='before' onClick={() => handleChangePage(+1)}>다음</button>
-    </div>
-   <div className = "uploadbar">
-    <input className = "file" type="file"  onChange={handleChangeFile} />
-    <button className = "upload" onClick={handleUploadFile}>파일열기</button>
-    </div>
-    </div>
+        <GuestUrlView curPage={curPage} />
+        <div className="btnbar">
+          <button className="backbtn" name='before' onClick={() => handleChangePage(-1)}>이전</button>
+          <p>{curPage} / {endPage}</p>
+          <button className="nextbtn" name='before' onClick={() => handleChangePage(+1)}>다음</button>
+        </div>
+        <div className="uploadbar">
+          <input className="file" type="file" onChange={handleChangeFile} />
+          <button className="upload" onClick={handleUploadFile}>파일열기</button>
+        </div>
+      </div>
 
-    <div className = "urlviewer">
-      <div className = "urltitle">추천 자료</div>
-      <div className = "url"> 자료 1 </div>
-      <div className = "url"> 자료 2 </div>
-      <div className = "url"> 자료 3</div>
-    </div>
+      <div className="urlviewer">
+        <div className="urltitle">추천 자료</div>
+        <div className="url"> 자료 1 </div>
+        <div className="url"> 자료 2 </div>
+        <div className="url"> 자료 3</div>
+      </div>
 
     </div>
   </>)
