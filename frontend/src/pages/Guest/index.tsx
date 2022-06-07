@@ -6,6 +6,7 @@ import { apiOrigin, requestGet } from '../../utils/api';
 
 import GuestUrlView from './GuestUrlView'
 import "./guest.css";
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa"; 
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
 
@@ -55,32 +56,27 @@ const Guest = () => {
   <div className = "titlebar">파일 이름</div>
     {isLoadingFile ?
       <div className = "uploadms">
-        파일을 업로드 해주세요 😊
+        파일을 업로드 해주세요
       </div> :
       <Document file={base64File} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
         <Page pageNumber={curPage} />
       </Document>
     }
 
-    <GuestUrlView curPage={curPage} />
     <div className = "btnbar">
-    <button className = "backbtn" name='before' onClick={() => handleChangePage(-1)}>이전</button>
+    <button className = "backbtn" name='before' onClick={() => handleChangePage(-1)}><FaChevronLeft size="20"/></button>
     <p>{curPage} / {endPage}</p> 
-    <button className = "nextbtn"name='before' onClick={() => handleChangePage(+1)}>다음</button>
+    <button className = "nextbtn"name='before' onClick={() => handleChangePage(+1)}><FaChevronRight size="20"/></button>
     </div>
+
    <div className = "uploadbar">
     <input className = "file" type="file"  onChange={handleChangeFile} />
     <button className = "upload" onClick={handleUploadFile}>파일열기</button>
     </div>
     </div>
-
     <div className = "urlviewer">
-      <div className = "urltitle">추천 자료</div>
-      <div className = "url"> 자료 1 </div>
-      <div className = "url"> 자료 2 </div>
-      <div className = "url"> 자료 3</div>
+    <GuestUrlView curPage={curPage} />
     </div>
-
     </div>
   </>)
 
