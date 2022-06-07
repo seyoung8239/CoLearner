@@ -6,6 +6,9 @@ import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestGet } from '../../utils/api';
 
 import UrlView from './UrlView';
+import {FaChevronLeft, FaChevronRight} from "react-icons/fa"; 
+import '../../sytles/viewer.css'
+
 
 pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.worker.js';
 
@@ -58,15 +61,29 @@ const Viewer = () => {
   }
 
   return (<>
-    {!isLoadingFile &&
-      <Document file={`data:application/pdf;base64,${base64File}`} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
-        <Page pageNumber={curPage} />
-      </Document>
-    }
-    <UrlView fileId={fileId!} curPage={curPage} />
-    <p>{curPage} / {endPage}</p>
-    <button name='before' onClick={() => handleChangePage(-1)}>이전</button>
-    <button name='before' onClick={() => handleChangePage(+1)}>다음</button>
+
+
+<div className="contents">
+
+    <div className="viewer">
+      <div className="titlebar">파일 이름</div>
+
+      {!isLoadingFile &&
+        <Document file={`data:application/pdf;base64,${base64File}`} onLoadSuccess={onDocumentLoadSuccess} onLoadError={console.error}>
+          <Page pageNumber={curPage} />
+        </Document>
+      }
+      <div className="btnbar">
+      <button className = "backbtn" name='before' onClick={() => handleChangePage(-1)}><FaChevronLeft size="20"/></button>
+    <p>{curPage} / {endPage}</p> 
+    <button className = "nextbtn"name='before' onClick={() => handleChangePage(+1)}><FaChevronRight size="20"/></button>
+      </div>
+      </div>
+
+      <div className = "urlviewer">
+      <UrlView fileId={fileId!} curPage={curPage} />
+    </div>
+    </div>
   </>)
 }
 
