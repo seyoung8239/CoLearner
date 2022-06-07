@@ -1,0 +1,121 @@
+.contents{
+    display: flex;
+    flex-direction: row;
+}
+
+
+.viewer{
+    display: flex;
+    width: 900px;
+    height: 500px;
+    margin-left:30px;
+    margin-top:30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.titlebar{
+position: flex;
+width: 900px;
+height: 50px;
+line-height: 50px;
+background: #3384FE;
+font-size: 20px;
+color:white;
+text-align: center;
+}
+
+.uploadms {
+    height: 29px;
+    left:50%;
+    margin-top:160px;
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    display: flex;
+    align-items: center;   
+    color: #000000;
+}
+
+.btnbar{
+    width: 900px;
+height: 50px;
+    background: #F3F3F3;
+    margin-top: 100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.backbtn {
+    position: flex;
+    width: 50px;
+    height: 20px;
+    margin-right:40px;
+}
+
+.nextbtn {
+    position:flex;
+    width: 50px;
+    height: 20px;
+    margin-left:40px;
+}
+
+.uploadbar{
+    position: flex;
+    margin-top:20px;
+    width: 900px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+}
+
+.file{
+    position:flex;
+    font-size:14px;
+}
+
+
+.upload{
+position:flex;
+width: 80px;
+height: 36px;
+margin-left:50px;
+background: #3384FE;
+border-radius: 10px;
+border:none;
+font-size: 14px;
+color:white;
+}
+
+.urlviewer{
+    display: flex;
+    width: 540px;
+    height: 500px;
+    margin-left:30px;
+    margin-top:30px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background:  #E3EEFF;
+    border-radius: 10px;;
+}
+
+.urltitle{
+    display:flex;
+    font-size: 20px;
+}
+
+.url{
+    width:400px;
+    height:120px;
+    background: white;
+    margin-top:20px;
+    text-align:center;
+    line-height: 100px;
+}
