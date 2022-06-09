@@ -44,7 +44,7 @@ const Viewer = () => {
     }
 
     if (fileId) fetchFile();
-  }, [fileId]);
+  }, [fileId, nodeId]);
 
   const handleChangePage = (offset: number) => {
     const newPage = curPage + offset;
