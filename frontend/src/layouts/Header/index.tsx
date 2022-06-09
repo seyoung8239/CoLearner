@@ -1,12 +1,15 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store/store';
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestGet } from '../../utils/api';
 
+import './styles.css';
+
 const Header = () => {
   const navigate = useNavigate();
   const store = useStore();
+  const [rerender, setRerender] = useState<boolean>();
 
   const handleLogout = useCallback(async () => {
     const res = await requestGet<
@@ -22,24 +25,27 @@ const Header = () => {
   }, [navigate, store]);
 
   const handleClickMain = useCallback(() => {
-    if(store.isLogin)
+    if (store.isLogin) {
       navigate('finder/0');
+      setRerender(true);
+    }
+      
     else
       navigate('/');
   }, [navigate]);
 
-  return <>
-    <h1 onClick={handleClickMain}>Colearner</h1>
+  return <div id='header'>
+    <h1 id='title' onClick={handleClickMain}>Colearner</h1>
     {
       store.isLogin &&
-      <div>
-        <div>안녕하세요, {store.name}님</div>
-        <button onClick={handleLogout}>Logout</button>
+      <div id='msg_welcome'>
+        <div id='hello'>안녕하세요, {store.name}님</div>
+        <button id='btn_logout' onClick={handleLogout}>Logout</button>
       </div>
-      
+
     }
 
-  </>
+  </div>
 }
 
 export default Header;

@@ -61,15 +61,15 @@ const Finder = () => {
 
   console.log(dirId)
   return <>
-    <div className="username">Colearner님의 파일목록</div>
-    <div className = "newbar">
-    <input type="file" onChange={handleChangeFile} />
-    <button className = "fileupload" onClick={handleUploadFile}>새 파일 추가</button>
-    <button className = "newdr" onClick={e => setIsModalOpen(true)}>새 폴더 추가</button>
+    {store.name && <div className="username">{store.name}님의 파일목록</div>}
+    <div className="newbar">
+      <input id='file_input' type="file" onChange={handleChangeFile} />
+      <button className="fileupload" onClick={handleUploadFile}>새 파일 추가</button>
+      <button className="newdr" onClick={e => setIsModalOpen(true)}>새 폴더 추가</button>
     </div>
     <DirAddModal dirId={dirId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-    <div className = "nodelist">
-    <NodeList isLoading={isLoading} isData={isData} setDirId={setDirId} />
+    <div className="nodelist">
+      <NodeList isLoading={isLoading} isData={isData} setDirId={setDirId} />
     </div>
   </>
 }

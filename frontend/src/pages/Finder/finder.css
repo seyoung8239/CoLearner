@@ -1,13 +1,13 @@
-.username{
-    width:1320px;
-    margin-top:30px;
-    margin-left:10%;
-    font-size: 20px;
+.username {
+    width: 1320px;
+    margin-top: 30px;
+    margin-left: 7%;
+    font-size: 1.7em;
     font-weight: bold;
 }
-.newbar{
+
+.newbar {
     display: flex;
-    width: 1320px;
     height: 40px;
     line-height: 50px;
     font-size: 20px;
@@ -15,137 +15,153 @@
     justify-content: flex-end;
     align-items: flex-end;
     line-height: 40px;
+    margin-top: 2%;
+    margin-bottom: 30px;
+    margin-right: 8%;
 }
 
-.diraddbar{
+.diraddbar {
     display: flex;
-    width: 1320px;
+    position: relative;
+    right: 8%;
     height: 50px;
     line-height: 50px;
     font-size: 20px;
-    flex-direction:row;
+    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
-    margin-top:10px;
+    /* margin-top: 10px; */
 }
 
 
-.diradd{
-    margin-right:10px;
-    height:36px;
+.diradd {
+    margin-right: 10px;
+    height: 36px;
     line-height: 36px;
     font-size: 14px;
     border-radius: 10px;
-    border:none;
+    border: none;
     width: 84px;
 }
 
-.close{
-    height:36px;
+.close {
+    height: 36px;
     line-height: 36px;
     font-size: 14px;
     border-radius: 10px;
-    border:none;
+    border: none;
     width: 84px;
 }
 
-.fileupload{
-    display:flex;
-    margin-right:50px;
+.fileupload {
+    margin-right: 10px;
+    margin-left: 50px;
     width: 92px;
     height: 36px;
     line-height: 36px;
-    text-align:center;
     background: #3384FE;
     border-radius: 10px;
-    border:none;
+    border: none;
     font-size: 14px;
-    color:white;
+    color: white;
 }
 
-.newdr{
-    display:flex;
+.newdr {
     width: 92px;
     height: 36px;
     line-height: 36px;
-    text-align:center;
+    text-align: center;
     background: #3384FE;
     border-radius: 10px;
-    border:none;
+    border: none;
     font-size: 14px;
-    color:white;
+    color: white;
 }
 
-.files{
-    display:flex;
-    margin-top:20px;
-    margin-left:10%;
-    width:1320px;
-    height:120px;
-    flex-direction:row;
-    justify-content:flex-start;
+.files {
+    display: flex;
+    margin-top: 20px;
+    margin-left: 10%;
+    width: 1320px;
+    height: 120px;
+    flex-direction: row;
+    justify-content: flex-start;
     flex-wrap: wrap;
 
 }
 
 .finderdir {
-    display:flex;
-    width:180px;
-    height:200px;
-    margin:30px; 
+    display: flex;
+    width: 180px;
+    height: 200px;
+    margin: 30px;
     text-align: center;
     border-radius: 4px;
     flex-direction: column;
-}    
+}
 
+#file_input {
+    padding: .3em .0em;
+    right: 30px;
+    /* label의 패딩값과 일치 */
+    font-size: .8em;
+    line-height: normal;
+    vertical-align: middle;
+    background-color: #f5f5f5;
+    border: 1px solid #ebebeb;
+    border-bottom-color: #281919;
+    border-radius: .25em;
+    right: 30px;
+}
 
 
 .finderfile {
-    display:flex;
-    width:180px;
-    height:200px;
-    margin:30px;
+    display: flex;
+    width: 180px;
+    height: 200px;
+    margin: 30px;
     border-radius: 4px;
     flex-direction: column;
-    
+
 }
 
-.diricon{
-    width:180px;
-    height:180px;
-    display:flex;
+.diricon {
+    width: 180px;
+    height: 180px;
+    display: flex;
 }
 
-.dirname{
-    width:180px;
-    height:20px;
+.dirname {
+    width: 180px;
+    height: 20px;
     line-height: 20px;
-    text-align:center;
-    font-size:14px;
-    margin-top:8px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
 }
 
 
-.fileicon{
-    width:180px;
-    height:180px;
-    display:flex;
+.fileicon {
+    width: 180px;
+    height: 180px;
+    display: flex;
 }
 
-.filename{
-    width:180px;
-    text-align:center;
-    font-size:14px;
-    margin-top:8px;
+.filename {
+    width: 180px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 8px;
 }
 
-.newdirname{
-    position: absolute;
-    left: 930px;
-    top: 191px;
-    width: 205px;
+.newdirname {
+    position: relative;
+    right: 2%;
+    /* top: 191px; */
+    width: 300px;
+    height: 2em;
+    font-size: 1.1em;
     outline: none;
     border: none;
     border-bottom: 2px solid gray;
-
 }
