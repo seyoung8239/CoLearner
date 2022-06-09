@@ -52,7 +52,7 @@
 .fileupload{
     display:flex;
     margin-right:50px;
-    width: 84px;
+    width: 92px;
     height: 36px;
     line-height: 36px;
     text-align:center;
@@ -65,7 +65,7 @@
 
 .newdr{
     display:flex;
-    width: 84px;
+    width: 92px;
     height: 36px;
     line-height: 36px;
     text-align:center;
@@ -139,4 +139,13 @@
     margin-top:8px;
 }
 
+.newdirname{
+    position: absolute;
+    left: 930px;
+    top: 191px;
+    width: 205px;
+    outline: none;
+    border: none;
+    border-bottom: 2px solid gray;
 
+}

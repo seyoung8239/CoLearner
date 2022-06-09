@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { BasicAPIResponseType } from '../../../types';
 import { apiOrigin, requestFormPost } from '../../../utils/api';
+import '../finder.css';
 
 
 type Props = {
