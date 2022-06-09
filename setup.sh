@@ -10,8 +10,8 @@ pip install --upgrade pip
 pip install -r requirements.txt
 
 touch .env
-echo "API_KEY=AIzaSyDpfOdjNdYlEiOngbhmRF-MZWlF8rOdnEM" >> .env
-echo "DB_URL=mongodb+srv://admin:admin@cluster0.soqt1rm.mongodb.net/?retryWrites=true&w=majority" >> .env
+echo "API_KEY=API KEY HERE" >> .env
+echo "DB_URL=DB URL HERE" >> .env
 
 nohup flask run > log.txt 2>&1 &
 

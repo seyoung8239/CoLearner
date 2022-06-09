@@ -51,6 +51,9 @@ $ cd frontend
 $ npm i
 $ npm start
 ```
+## Run with shell script in local environment
+`$ ./setup.sh`
+
 ## API Docs
 Swagger UI 기반의 RESTful API 문서 
 
