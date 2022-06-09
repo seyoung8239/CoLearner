@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { BasicAPIResponseType } from '../../../types';
 import { apiOrigin, requestFormPost } from '../../../utils/api';
 
-import "./diradd.css";
 
 type Props = {
   dirId: number;
@@ -32,7 +31,7 @@ const DirAddModal = ({ dirId, isModalOpen, setIsModalOpen }: Props) => {
   return <>
     <form onSubmit={handleMakeDir}>
       <div className = "diraddbar">
-      <input type="text" placeholder='새 디렉터리 이름을 입력해주세요' onChange={e => setNewDirName(e.target.value as string)} />
+      <input className ="newdirname" type="text" placeholder='새 디렉터리 이름을 입력해주세요' onChange={e => setNewDirName(e.target.value as string)} />
       <button className = "diradd" type='submit'>생성</button>
       <button className = "close" onClick={e => { setIsModalOpen(false) }}>닫기</button>
       </div>

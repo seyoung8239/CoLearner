@@ -1,19 +1,58 @@
+.username{
+    width:1320px;
+    margin-top:30px;
+    margin-left:10%;
+    font-size: 20px;
+    font-weight: bold;
+}
 .newbar{
     display: flex;
-    width: 1400px;
+    width: 1320px;
+    height: 40px;
+    line-height: 50px;
+    font-size: 20px;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: flex-end;
+    line-height: 40px;
+}
+
+.diraddbar{
+    display: flex;
+    width: 1320px;
     height: 50px;
     line-height: 50px;
     font-size: 20px;
-    color:white;
-    flex-direction: row;
+    flex-direction:row;
     justify-content: flex-end;
     align-items: center;
+    margin-top:10px;
+}
+
+
+.diradd{
+    margin-right:10px;
+    height:36px;
+    line-height: 36px;
+    font-size: 14px;
+    border-radius: 10px;
+    border:none;
+    width: 84px;
+}
+
+.close{
+    height:36px;
+    line-height: 36px;
+    font-size: 14px;
+    border-radius: 10px;
+    border:none;
+    width: 84px;
 }
 
 .fileupload{
     display:flex;
     margin-right:50px;
-    width: 90px;
+    width: 84px;
     height: 36px;
     line-height: 36px;
     text-align:center;
@@ -26,7 +65,7 @@
 
 .newdr{
     display:flex;
-    width: 90px;
+    width: 84px;
     height: 36px;
     line-height: 36px;
     text-align:center;
@@ -36,3 +75,68 @@
     font-size: 14px;
     color:white;
 }
+
+.files{
+    display:flex;
+    margin-top:20px;
+    margin-left:10%;
+    width:1320px;
+    height:120px;
+    flex-direction:row;
+    justify-content:flex-start;
+    flex-wrap: wrap;
+
+}
+
+.finderdir {
+    display:flex;
+    width:180px;
+    height:200px;
+    margin:30px; 
+    text-align: center;
+    border-radius: 4px;
+    flex-direction: column;
+}    
+
+
+
+.finderfile {
+    display:flex;
+    width:180px;
+    height:200px;
+    margin:30px;
+    border-radius: 4px;
+    flex-direction: column;
+    
+}
+
+.diricon{
+    width:180px;
+    height:180px;
+    display:flex;
+}
+
+.dirname{
+    width:180px;
+    height:20px;
+    line-height: 20px;
+    text-align:center;
+    font-size:14px;
+    margin-top:8px;
+}
+
+
+.fileicon{
+    width:180px;
+    height:180px;
+    display:flex;
+}
+
+.filename{
+    width:180px;
+    text-align:center;
+    font-size:14px;
+    margin-top:8px;
+}
+
+

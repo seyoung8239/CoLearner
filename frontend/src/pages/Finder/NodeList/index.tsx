@@ -16,6 +16,7 @@ const nodes = [
   {id: 127, name: '2022S_OSP_11 (text analysis)', parent:0, type:'FILE'},
   {id: 128, name: '2022S_OSP_11 (text analysis)', parent:0, type:'FILE'},
   {id: 129, name: '2022S_OSP_11 (text analysis)', parent:0, type:'FILE'},
+  {id: 130, name: '2022S_OSP_11 (text analysis)', parent:0, type:'FILE'},
 ]
 
 const NodeList = ({ isLoading, isData, setDirId }: Props) => {
@@ -35,12 +36,21 @@ const NodeList = ({ isLoading, isData, setDirId }: Props) => {
   // if (!isData) return <>No Data..</>
   
   return (<>
+    <div className ="files">
     {nodes.map((node) => (
       node.type === 'DIR' ?
-        <div key={node.id} onClick={() => handleClickDir(node.id)}>[DIR]{node.name}</div> :
-        <div key={node.id} onClick={() => handleClickFile(node.id)}>[FILE]{node.name}</div>
+        <div className = "finderdir" key={node.id} onClick={() => handleClickDir(node.id)}>
+          <img className = "fileicon" src ="https://cdn-icons-png.flaticon.com/512/716/716784.png"></img>
+        <div className = "dirname">[DIR]{node.name}</div></div> :
+        <div className = "finderfile"key={node.id} onClick={() => handleClickFile(node.id)}>
+            <img className = "fileicon" src ="https://cdn-icons-png.flaticon.com/512/2306/2306145.png"></img>
+        <div className = "filename">[FILE]{node.name}</div></div>
     ))}
+ </div>
   </>)
 }
+
+//  <a href="https://www.flaticon.com/free-icons/folder" title="folder icons">Folder icons created by DinosoftLabs - Flaticon</a>
+// <a href="https://www.flaticon.com/free-icons/pdf-document" title="pdf-document icons">Pdf-document icons created by iconixar - Flaticon</a>
 
 export default React.memo(NodeList);

@@ -61,16 +61,16 @@ const Finder = () => {
 
   console.log(dirId)
   return <>
-    <h1>Colearner님의 파일목록</h1>
-
+    <div className="username">Colearner님의 파일목록</div>
     <div className = "newbar">
     <input type="file" onChange={handleChangeFile} />
     <button className = "fileupload" onClick={handleUploadFile}>새 파일 추가</button>
     <button className = "newdr" onClick={e => setIsModalOpen(true)}>새 폴더 추가</button>
     </div>
-
-    <NodeList isLoading={isLoading} isData={isData} setDirId={setDirId} />
     <DirAddModal dirId={dirId} isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+    <div className = "nodelist">
+    <NodeList isLoading={isLoading} isData={isData} setDirId={setDirId} />
+    </div>
   </>
 }
 
