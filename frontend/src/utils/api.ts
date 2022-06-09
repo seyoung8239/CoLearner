@@ -1,7 +1,4 @@
 import axios, { AxiosError } from 'axios';
-import { resolve } from 'path';
-
-import { BasicAPIResponseType } from '../types';
 
 export const apiOrigin = "http://localhost:5000"
 

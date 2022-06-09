@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store/store';
@@ -31,7 +32,7 @@ const SignIn = () => {
         alert('로그인에 실패했습니다.');
       }
     }
-  }, [navigate, uid, pwd, store]);
+  }, [navigate, uid, pwd]);
 
   return (<>
       <div className={styles.container}>
