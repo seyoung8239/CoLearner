@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react'
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
 import useStore from '../../store/store';
 import { BasicAPIResponseType } from '../../types';
@@ -9,7 +10,6 @@ import './styles.css';
 const Header = () => {
   const navigate = useNavigate();
   const store = useStore();
-  const [rerender, setRerender] = useState<boolean>();
 
   const handleLogout = useCallback(async () => {
     const res = await requestGet<
@@ -25,11 +25,8 @@ const Header = () => {
   }, [navigate, store]);
 
   const handleClickMain = useCallback(() => {
-    if (store.isLogin) {
+    if (store.isLogin)
       navigate('finder/0');
-      setRerender(true);
-    }
-      
     else
       navigate('/');
   }, [navigate]);

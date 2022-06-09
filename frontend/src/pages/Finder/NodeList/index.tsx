@@ -35,10 +35,10 @@ const NodeList = ({ isLoading, isData, setDirId }: Props) => {
       {store.nodes.map((node) => (
         node.type === 'DIR' ?
           <div className="finderdir" key={node.id} onClick={() => handleClickDir(node.id)}>
-            <img className="fileicon" src="https://cdn-icons-png.flaticon.com/512/716/716784.png"></img>
+            <img className="fileicon" src="https://cdn-icons-png.flaticon.com/512/716/716784.png" alt=""></img>
             <div className="dirname">[DIR]{node.name}</div></div> :
           <div className="finderfile" key={node.id} onClick={() => handleClickFile(node.id)}>
-            <img className="fileicon" src="https://cdn-icons-png.flaticon.com/512/2306/2306145.png"></img>
+            <img className="fileicon" src="https://cdn-icons-png.flaticon.com/512/2306/2306145.png" alt=""></img>
             <div className="filename">[FILE]{node.name}</div></div>
       ))}
     </div>
