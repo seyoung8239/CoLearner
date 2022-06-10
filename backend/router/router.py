@@ -1,10 +1,17 @@
-from flask import request, Blueprint, session, Response, jsonify, send_file, make_response
+from flask import request, Blueprint, session, jsonify 
 from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from base64 import b64encode
+import app
 
 bp = Blueprint("main", __name__, url_prefix="/")
+
+@bp.after_request
+def cookies(response):
+    same_cookie = app.session_cookie.dumps(dict(session))
+    response.headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
+    return response
 
 @bp.route("/")
 @cross_origin(supports_credentials=True)
@@ -51,7 +58,7 @@ def logout():
         session.pop("uid")
         return jsonify({'message':'success'}), 200
     else:
-        return jsonify({'message':'fail', 'error':'not signed in'}), 403
+        return jsonify({'message':'fail', 'error':'not signed in'}), 401
 
 @bp.route("/finder/<id>", methods=['GET'])
 @cross_origin(supports_credentials=True)
@@ -88,7 +95,7 @@ def upload(id):
         else:
             return jsonify({'message':'fail', 'error':'upload'}), 500
     else:
-        return jsonify({'message':'fail', 'error':'not authorized'}), 403
+        return jsonify({'message':'fail', 'error':'not authorized'}), 401
 
 @bp.route("/makedir/<id>", methods=['POST'])
 @cross_origin(supports_credentials=True)

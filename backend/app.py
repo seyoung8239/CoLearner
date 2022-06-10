@@ -1,4 +1,5 @@
-from flask import Flask, request, Response, jsonify, Blueprint
+from flask import Flask
+from flask.sessions import SecureCookieSessionInterface
 from config import Config
 from flask_restx import Api, Resource
 from services import services as s
@@ -8,11 +9,14 @@ from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config.update( SESSION_COOKIE_NAME="my_cookie") 
 app.secret_key = "veryverysecretkey"
 
 app.register_blueprint(router.bp)
 
 CORS(app, resources={r'*':{'origins':['127.0.0.1:5000','http://127.0.0.1:3000', 'http://localhost:3000', 'http://colearner-fe.s3-website.ap-northeast-2.amazonaws.com']}})
+
+session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
 
 api = Api(app=app, title="CoLearner API 문서", doc="/api")
 
