@@ -9,6 +9,7 @@ export function requestGet<T>(url: string, header: object) {
         headers: {
           "Content-Type": "application/json",
           ...header,
+          "SameSite": "None"
         },
         withCredentials: true
       })
