@@ -9,9 +9,24 @@ type Store = {
   setName: (name: string) => void;
   nodes: Node[];
   load: (nodes: Node[]) => void
+  cookie: string;
+  setCookie: (c: string) => void
 }
 
 const useStore = create<Store>((set) => ({
+  cookie: '',
+  setCookie(cc) {
+    set((state: Store) => ({
+      ...state,
+      cookie: cc
+    }))
+  },
+  setName(name) {
+    set((state: Store) => ({
+      ...state,
+      name: name
+    }))
+  },
   isLogin: false,
   login() {
     set((state: Store) => ({
@@ -26,12 +41,6 @@ const useStore = create<Store>((set) => ({
     }))
   },
   name: '',
-  setName(name) {
-    set((state: Store) => ({
-      ...state,
-      name: name
-    }))
-  },
   nodes: [],
   load(nodes: Node[]) {
     set((state: Store) => ({
