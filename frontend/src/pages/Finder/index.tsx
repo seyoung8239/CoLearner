@@ -29,7 +29,7 @@ const Finder = () => {
         formData.append("file", file, file.name);
         const { data } = await requestFormPost<
           BasicAPIResponseType<UploadType>
-        >(apiOrigin + `/upload/${dirId}`, {}, formData);
+        >(apiOrigin + `/upload/${dirId}`, {"Cookie": store.cookie, 'secure': true}, formData);
         if (data.message === 'success') {
           console.log('success add dir');
           window.location.reload();
@@ -48,7 +48,7 @@ const Finder = () => {
       try {
         const res = await requestGet<
           BasicAPIResponseType<getNodesType>
-        >(apiOrigin + `/finder/${dirId}`, {});
+        >(apiOrigin + `/finder/${dirId}`, {'secure': true});
         const isDataTemp = res.data.files.length ? true : false;
         setIsData(isDataTemp);
         store.load(res.data.files);;

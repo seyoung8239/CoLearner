@@ -25,8 +25,6 @@ api = Api(app=app, title="CoLearner API 문서", doc="/api")
 def cookies(response):
     same_cookie = session_cookie.dumps(dict(session))
     print('cookie!')
-    # response.headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; samesite=None; Path=/;")
-    # response.set_cookie(key='tttt', value='vvv' ,samesite=None)
     response.set_cookie('my_cookie', same_cookie, samesite='None', secure=True)
     return response
 

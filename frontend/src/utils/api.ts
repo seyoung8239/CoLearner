@@ -3,13 +3,14 @@ import axios, { AxiosError } from 'axios';
 export const apiOrigin = "http://15.164.184.37:5000"
 
 export function requestGet<T>(url: string, header: object) {
+  
   return new Promise<T>((resolve, reject) => {
     axios
       .get(url, {
         headers: {
           "Content-Type": "application/json",
           ...header,
-          "SameSite": "None"
+          "SameSite": "None",
         },
         withCredentials: true
       })
