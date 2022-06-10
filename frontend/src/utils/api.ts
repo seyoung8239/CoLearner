@@ -1,6 +1,6 @@
 import axios, { AxiosError } from 'axios';
 
-export const apiOrigin = "http://15.164.184.37:5000"
+export const apiOrigin = "http://localhost:5000"
 
 export function requestGet<T>(url: string, header: object) {
   
