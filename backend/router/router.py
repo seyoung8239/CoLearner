@@ -3,15 +3,8 @@ from services import services as s
 from werkzeug.utils import secure_filename
 from flask_cors import CORS, cross_origin
 from base64 import b64encode
-import app
 
 bp = Blueprint("main", __name__, url_prefix="/")
-
-@bp.after_request
-def cookies(response):
-    same_cookie = app.session_cookie.dumps(dict(session))
-    response.headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; SameSite=None; Path=/;")
-    return response
 
 @bp.route("/")
 @cross_origin(supports_credentials=True)

@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, session
 from flask.sessions import SecureCookieSessionInterface
 from config import Config
 from flask_restx import Api, Resource
@@ -19,6 +19,16 @@ CORS(app, resources={r'*':{'origins':['127.0.0.1:5000','http://127.0.0.1:3000', 
 session_cookie = SecureCookieSessionInterface().get_signing_serializer(app)
 
 api = Api(app=app, title="CoLearner API 문서", doc="/api")
+
+
+@app.after_request
+def cookies(response):
+    same_cookie = session_cookie.dumps(dict(session))
+    print('cookie!')
+    # response.headers.add("Set-Cookie", f"my_cookie={same_cookie}; Secure; HttpOnly; samesite=None; Path=/;")
+    # response.set_cookie(key='tttt', value='vvv' ,samesite=None)
+    response.set_cookie('my_cookie', same_cookie, samesite='None', secure=True)
+    return response
 
 @api.route("/")
 class Main(Resource):

@@ -9,6 +9,7 @@ export function requestGet<T>(url: string, header: object) {
         headers: {
           "Content-Type": "application/json",
           ...header,
+          "SameSite": "None"
         },
         withCredentials: true
       })
@@ -34,15 +35,15 @@ export function requestFormPost<T>(url: string, header: object, form: FormData) 
           ...header,
         },
         withCredentials: true
-      }, )
-    .then((res) => {
-      const returnVal = { ...res } as unknown;
-      resolve(returnVal as T);
-    })
-    .catch((error: AxiosError) => {
-      console.error(error.response?.data);
-      console.error(error.response?.status);
-      reject(error);
-    });
-});
+      },)
+      .then((res) => {
+        const returnVal = { ...res } as unknown;
+        resolve(returnVal as T);
+      })
+      .catch((error: AxiosError) => {
+        console.error(error.response?.data);
+        console.error(error.response?.status);
+        reject(error);
+      });
+  });
 }
