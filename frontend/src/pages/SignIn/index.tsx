@@ -5,6 +5,7 @@ import useStore from '../../store/store';
 import { BasicAPIResponseType } from '../../types';
 import { apiOrigin, requestFormPost } from '../../utils/api';
 import styles from './SignIn.module.css';
+import Cookies from 'js-cookie';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const SignIn = () => {
       if (data.message === 'success') {
         store.login();
         store.setName(uid);
+        store.setCookie(Cookies.get('my_cookie')!);
         alert('로그인에 성공했습니다.')
         navigate('/finder/0');
       } else {
